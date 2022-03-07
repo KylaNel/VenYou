@@ -9,3 +9,11 @@ Everyone can find venues in their area and see how they score in the categories 
 
 Python 3.9
 Django 2.2.26
+
+# How to setup
+
+1. Create a virutal environment with Python 3.9. This can be done by `conda create -n venyou python=3.9`.
+
+2. Then install the dependencies. A list of the requirements can be found in `requirement.txt` and and can be installed with `pip install -r requirements.txt`.
+
+3. Run the server with `python venyou/manage.py runserver`.
