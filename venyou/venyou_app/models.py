@@ -15,7 +15,17 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Venue(models.Model):
-    pass
+    NAME_MAX_LENGTH = 50
+    DESC_MAX_LENGTH = 300
+    ADDRESS_MAX_LENGTH = 100
+
+    name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
+    description = models.CharField(max_length=DESC_MAX_LENGTH)
+    address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
+
+    def __str__(self):
+        return self.name
+
 
 class Rating(models.Model):
     pass
