@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
 class UserProfile(models.Model):
     # To extend on the functionality of Django's user model
@@ -23,6 +22,8 @@ class Venue(models.Model):
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
 
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 
@@ -37,6 +38,12 @@ class Rating(models.Model):
     comment = models.CharField(max_length=COMMENT_MAX_LENGTH, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
+    writer = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    about = models.ForeignKey(Venue, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Comment by "+self.writer.user.username
+
 
 class Event(models.Model):
     NAME_MAX_LENGTH = 50
@@ -46,4 +53,10 @@ class Event(models.Model):
     description = models.CharField(max_length=DESC_MAX_LENGTH, blank=True)
     date = models.DateTimeField()
 
+    organiser = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+
     ticket_link = models.URLField()
+
+    def __str__(self):
+        return self.name
