@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import IntegerField
 
 # Create your models here.
 
@@ -28,7 +29,15 @@ class Venue(models.Model):
 
 
 class Rating(models.Model):
-    pass
+    COMMENT_MAX_LENGTH = 500
+    
+    hygiene_score = IntegerField(min_value=0, max_value=5)
+    vibe_score = IntegerField(min_value=0, max_value=5)
+    safety_score = IntegerField(min_value=0, max_value=5)
+
+    comment = models.CharField(max_length=COMMENT_MAX_LENGTH, blank=True)
+    date = models.DateField()
+
 
 class Event(models.Model):
     pass
