@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 
 <html>
-    <head><title>A blank test base page</title></head>
+    <head>
+        <title>A blank test base page</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <script src="{% static 'js/base.js' %}"></script>
+    </head>
     <body>
-        Test Page.
+        <img src="{% static 'images/download.jpg' %}" />
+        <ul id="nav-1"> 
+            <li class="slide1"></li>         
+            <li class="slide2"></li>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/">Beta</a></li>
+            <li id="prof"><a href="#user">Profile</a></li>
+        </ul>
     </body>
 </html>
