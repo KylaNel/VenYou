@@ -17,3 +17,7 @@ Django 2.2.26
 2. Then install the dependencies. A list of the requirements can be found in `requirement.txt` and and can be installed with `pip install -r requirements.txt`.
 
 3. Run the server with `python venyou/manage.py runserver`.
+
+# How to run tests
+
+Run the command `python venyou/manage.py test venyou_app`
