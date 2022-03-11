@@ -75,7 +75,7 @@
     box-sizing: border-box;
   } */
   
-  /* html,
+  html,
   body {
     height: 100%;
   }
@@ -83,7 +83,7 @@
   body {
     justify-content: center;
     align-items: center;
-    background-color: #e0e0e0;
+    background-color: #c0e4db;
     font-family: Montserrat, sans-serif;
     line-height: 1.5;
-  } */
+  }
