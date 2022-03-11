@@ -1,27 +1,27 @@
 #nav-1 {
-    /* position: relative; */
-    /* border: none; */
-    /* display: block; */
-    list-style-type: none;
+    position: relative;
+    border-radius: 2em;
+    border: none;
+    /* display: flex; */
+    list-style: none;
     background-color: #57aca0;
-    padding: 0;
+    padding: 0px;
     margin: 0;
     overflow: hidden;
   }
   #nav-1 li {
-    /* margin: 0px; */
+    margin: 0px;
     /* display: inline; */
     float: left;
   }
   #nav-1 li a {
-    /* position: relative; */
-    /* background-color: aqua; */
-    /* padding: 14px 16px; */
+    position: relative;
+    /* background-color: rgb(71, 134, 134); */
     /* font-size: 18px; */
-    /* border: none;
-    outline: none; */
+    border: none;
+    outline: none;
     color: #333;
-    display: block;
+    display: inline-block;
     text-decoration: none;
     z-index: 3;
   }
@@ -30,7 +30,7 @@
     border: none;
     /* margin-top: 20px; */
     font-size: 17px;
-    color: rgb(0, 0, 0);
+    color: rgb(119, 29, 29);
   }
   #nav-1 .search-container button {
     padding: 6px 10px;
@@ -57,23 +57,24 @@
     position: absolute;
     display: inline-block;
     height: 3em;
+    border-radius: 10em;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
   }
-  #nav-1 .slide1 {
+  .slide1 {
     background-color: rgb(73, 138, 182);
     z-index: 2;
   }
-  #nav-1 .slide2 {
+ .slide2 {
     opacity: 0;
     background: #ddd;
     z-index: 1;
   }
   
-  /* *,
+  *,
   *::before,
   *::after {
     box-sizing: border-box;
-  } */
+  }
   
   html,
   body {
