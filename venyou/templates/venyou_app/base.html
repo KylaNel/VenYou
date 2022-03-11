@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-{% load static %}
+{% load staticfiles %}
 
 <html>
     <head>
         <title>A blank test base page</title>
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <script src="{% static 'js/base.js' %}"></script>
+        <!-- ICON LIBRARY -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- CSS AND JS FOR DJANGO -->
+        <!-- <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <script src="{% static 'js/base.js' %}"></script> -->
+
+        <!-- CSS AND JS IMPORTS FOR VSCODE TESTING -->
+        <link rel="stylesheet" href="base.css">
+        <script src="base.js"></script>
+
     </head>
     <body>
-        <img src="{% static 'images/download.jpg' %}" />
         <ul id="nav-1"> 
             <li class="slide1"></li>         
             <li class="slide2"></li>
-            <li><a href="#/">Home</a></li>
-            <li><a href="#/">Beta</a></li>
-            <li id="prof"><a href="#user">Profile</a></li>
+            <!-- <li ><a href="#/"><span id="home" class="fa fa-home"></span></a></li> -->
+            <li><button type="button"><i class="fa fa-home fa-4x"></i></button></li>
+
+            <!-- Search Bar -->
+            <li class="search-container">
+                <form action="/action_page.php">
+                  <input type="text" placeholder="Search.." name="search">
+                  <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </li>
+
+            <!-- <li id="prof"><a href="#user"><span id="user" class="fa fa-user"></span></a></li> -->
+            <li id="prof"><button type="button"><i class="fa fa-user fa-4x"></i></button></li>
         </ul>
     </body>
 </html>
