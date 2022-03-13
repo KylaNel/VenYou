@@ -1,0 +1,22 @@
+<html>
+ <head>
+     <body>
+    <center>
+        <h1>Rate The following venue</h1>
+        <br/> <br/>
+        {% if submit %}
+            Your Ratings were submitted successfully
+        {% else %}
+            <form id="rate" action = "" method="POST">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <input type="submit" value="Submit" class="btn btn-secondary" >
+
+            </form>
+        {% endif %}
+    </center>
+    </body>
+</head>
+</html>
