@@ -22,6 +22,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', views.home, name='home'),
     path('venyou/', include('venyou_app.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

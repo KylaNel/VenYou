@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 
 # Create your views here.
 
+<<<<<<< HEAD
 
 def index(request):
     return render(request, 'venyou_app/base.html')
@@ -24,3 +25,10 @@ def rate(request):
             submit = True
 
     return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit})
+=======
+def home(request):
+    return render(request, 'venyou_app/home.html')
+
+def map(request):
+    return render(request, 'venyou_app/map.html')
+>>>>>>> 170b3dd73fb47fe1a92bd279267b03366c1c46fc

@@ -1,43 +1,70 @@
 #nav-1 {
     position: relative;
+    border-radius: 2em;
     border: none;
-    display: flex;
+    /* display: flex; */
     list-style: none;
-    background: #188173;
-    padding: 0;
+    background-color: #57aca0;
+    padding: 0px;
     margin: 0;
+    overflow: hidden;
   }
   #nav-1 li {
     margin: 0px;
-    display: inline;
-    /* float: left; */
+    /* display: inline; */
+    float: left;
   }
   #nav-1 li a {
     position: relative;
-    padding: 14px 16px;
-    font-size: 18px;
+    /* background-color: rgb(71, 134, 134); */
+    /* font-size: 18px; */
     border: none;
     outline: none;
     color: #333;
-    display: block;
+    display: inline-block;
     text-decoration: none;
     z-index: 3;
   }
-  #prof {
+  #nav-1 input[type=text] {
+    padding: 6px;
+    border: none;
+    /* margin-top: 20px; */
+    font-size: 17px;
+    color: rgb(119, 29, 29);
+  }
+  #nav-1 .search-container button {
+    padding: 6px 10px;
+    margin-top: 24px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+  #nav-1 button {
+    padding: 12px 16px;
+    /* margin-top: 20px; */
+    background-color: transparent;
+    background-repeat: no-repeat;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+  #nav-1 #prof {
       float: right;
   }
   #nav-1 .slide1,
   #nav-1 .slide2 {
-    position: relative;
+    position: absolute;
     display: inline-block;
     height: 3em;
+    border-radius: 10em;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
   }
-  #nav-1 .slide1 {
+  .slide1 {
     background-color: rgb(73, 138, 182);
     z-index: 2;
   }
-  #nav-1 .slide2 {
+ .slide2 {
     opacity: 0;
     background: #ddd;
     z-index: 1;
@@ -55,10 +82,9 @@
   }
   
   body {
-    /* justify-content: center;
-    align-items: center; */
-    background-color: #e0e0e0;
+    justify-content: center;
+    align-items: center;
+    background-color: #c0e4db;
     font-family: Montserrat, sans-serif;
     line-height: 1.5;
-    background: linear-gradient(160deg, #4567b2 20%, #8ab9ff 20%, #8ab9ff 80%, #4567b2 80%);
   }
