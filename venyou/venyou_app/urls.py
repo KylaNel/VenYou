@@ -8,7 +8,6 @@ from django.conf.urls.static import static
 app_name = 'venyou_app'
 
 urlpatterns = [
-    path('', views.index, name='index'),
     path('rate/', views.rate, name='rate'),
     path('', views.home, name='home'),
     path('map/', views.map, name='map'),

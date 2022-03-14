@@ -6,11 +6,6 @@ from django.shortcuts import redirect
 
 # Create your views here.
 
-
-def index(request):
-    return render(request, 'venyou_app/base.html')
-
-
 def rate(request):
     submit = False
     if  request.method == "POST":
@@ -24,7 +19,7 @@ def rate(request):
             submit = True
 
     return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit})
-    
+
 def home(request):
     return render(request, 'venyou_app/home.html')
 
