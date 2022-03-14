@@ -8,11 +8,8 @@ from django.conf.urls.static import static
 app_name = 'venyou_app'
 
 urlpatterns = [
-<<<<<<< HEAD
     path('', views.index, name='index'),
     path('rate/', views.rate, name='rate'),
-=======
     path('', views.home, name='home'),
     path('map/', views.map, name='map'),
->>>>>>> 170b3dd73fb47fe1a92bd279267b03366c1c46fc
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
