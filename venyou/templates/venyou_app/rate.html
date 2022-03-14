@@ -1,6 +1,11 @@
-<html>
- <head>
-     <body>
+{% extends 'venyou_app/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    VenYou - Leave a rating
+{% endblock %}
+
+{% block body_block %}
     <center>
         <h1>Rate The following venue</h1>
         <br/> <br/>
@@ -17,6 +22,4 @@
             </form>
         {% endif %}
     </center>
-    </body>
-</head>
-</html>
+{% endblock %}
