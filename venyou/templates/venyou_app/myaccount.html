@@ -6,5 +6,38 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Welcome {{}}</h1>
+    <h1>Welcome {{ user.username }}</h1>
+    <img src="{{ user_profile.picture.url }}" width="100" \>
+    <div>
+        {% if user_profile.is_owner %}
+            You are an is_owner
+        
+        <div>
+            <h2>Your Venues</h2>
+            <ul>
+                <li>Venue 1</li>
+                <li>Venue 2</li>
+            </ul>
+        </div>
+
+        {% endif %}
+
+        
+        <div>
+            <h2>Your Reviews</h2>
+            <ul>
+                {% for el in ratings %}
+                    <div>
+                        <h3>{{ el.about.name }}</h3>
+                        <p>{{ el.comment }}</p>
+                        <p>
+                            Hygiene Score: {{ el.hygiene_score }}
+                            Vibe Score: {{ el.vibe_score }}
+                            Safety Score: {{ el.safety_score }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
