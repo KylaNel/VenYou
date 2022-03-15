@@ -33,6 +33,7 @@ class VenueForm(ModelForm):
                             help_text="Description:")
     address = forms.CharField(max_length=Venue.ADDRESS_MAX_LENGTH,
                             help_text="Address:")
+    name_slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Venue

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.template.defaultfilters import slugify
 
 
 class UserProfile(models.Model):
@@ -22,8 +23,14 @@ class Venue(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
+    name_slug = models.SlugField(unique=True)
 
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        super(Venue, self).save(*args, **kwargs)
+
 
     def __str__(self):
         return self.name

@@ -124,3 +124,17 @@ def create_account(request):
                     'user_profile_form':user_profile_form,
                     'created':already_created}
     return render(request, 'venyou_app/create_account.html',  context_dict)
+
+
+def venue_page(request, venue_name_slug):
+
+    context_dict = {}
+
+    try:
+        venue = Venue.objects.get(name_slug=venue_name_slug)
+        context_dict['venue'] = venue
+
+    except Venue.DoesNotExist:
+        context_dict['venue'] = None
+
+    return render(request, 'venyou_app/venue.html', context_dict)
