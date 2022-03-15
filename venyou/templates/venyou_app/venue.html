@@ -11,6 +11,64 @@
             <img class="banner_image" alt="Image of venue" src=""/>
 
             <h1 class="page_title"> {{ venue.name }}</h1>
+
+            <div id="venue_rating_bar">
+                {% if sr.has_been_rated %}
+
+                <div class="star_score">
+                    Hygiene:
+                    {% for i in sr.st_hg_f %}
+                        <a class="fa fa-star" ></a>
+                    {% endfor %}
+                    {% for i in sr.st_hg_h %}
+                        <a class="fa fa-star-half-o" ></a>
+                    {% endfor %}
+                    {% for i in sr.st_hg_e %}
+                        <a class="fa fa-star-o" ></a>
+                    {% endfor %}
+                </div>
+
+                <div class="star_score">
+                    Vibe:
+                    {% for i in sr.st_vb_f %}
+                        <a class="fa fa-star" ></a>
+                    {% endfor %}
+                    {% for i in sr.st_vb_h %}
+                        <a class="fa fa-star-half-o" ></a>
+                    {% endfor %}
+                    {% for i in sr.st_vb_e %}
+                        <a class="fa fa-star-o" ></a>
+                    {% endfor %}
+                </div>
+
+                <div class="star_score">
+                    Safety:
+                    {% for i in sr.st_sf_f %}
+                        <a class="fa fa-star" ></a>
+                    {% endfor %}
+                    {% for i in sr.st_sf_h %}
+                        <a class="fa fa-star-half-o" ></a>
+                    {% endfor %}
+                    {% for i in sr.st_sf_e %}
+                        <a class="fa fa-star-o" ></a>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+                    <strong>There are no ratings for this venue yet.</strong>
+                {% endif %}
+
+            </div>
+
+            <div id="venue_icon_bar">
+                <a class="fa fa-external-link fa-4x" href="#"></a>
+                <a class="fa fa-map-marker fa-4x" href="{% url 'venyou_app:map' %}"></a>
+            </div>
+
+            <div>
+                <div>Events Div</div>
+                <div>Reviews</div>
+            </div>
         </div>
     {% else %}
         <strong>Sorry, this venue does not exist.</strong>

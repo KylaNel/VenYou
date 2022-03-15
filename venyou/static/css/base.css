@@ -166,3 +166,27 @@
 .banner_image{
   width: 100%;
 }
+
+#venue_icon_bar{
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#venue_icon_bar a{
+  margin-left: 10px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+#venue_rating_bar{
+  text-align: center;
+}
+
+.star_score{
+  width: fit-content;
+  display: inline;
+  margin-left: 10px;
+  margin-right: 10px;
+}

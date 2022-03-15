@@ -14,6 +14,44 @@ from venyou_app.forms import RatingsForm, VenueForm, UserProfileForm, UserForm
 
 # Create your views here.
 
+class StarRating:
+    def __init__(self, ratings):
+        self.has_been_rated = True
+        if len(ratings) == 0:
+            self.has_been_rated = False
+        else:
+            self.calculate_stars(ratings)
+
+    def calculate_stars(self, ratings):
+
+        # For each category of rating take an average
+        hygiene_score = sum([rating.hygiene_score for rating in ratings])/len(ratings)
+        vibe_score = sum([rating.vibe_score for rating in ratings])/len(ratings)
+        safety_score = sum([rating.safety_score for rating in ratings])/len(ratings)
+
+        # Calculate how many of each kind of star is needed
+        self.st_hg_f, self.st_hg_h, self.st_hg_e = self.get_no_star_types(hygiene_score)
+        self.st_vb_f, self.st_vb_h, self.st_vb_e = self.get_no_star_types(vibe_score)
+        self.st_sf_f, self.st_sf_h, self.st_sf_e = self.get_no_star_types(safety_score)
+
+    def get_no_star_types(self, score):
+        """ 
+        Returns a 3-tuple of how many full, half and empty stars are needed
+        to represent a score. Returns ranges so that the django template can
+        iterate over them.
+        """
+        rounded = round(score*2)/2
+
+        no_full_stars = int(rounded//1)
+        no_half_stars = int((rounded-no_full_stars+0.9)//1)
+        no_empty_stars = int(5-no_full_stars-no_half_stars)
+
+        print(no_full_stars, no_half_stars, no_empty_stars)
+
+        return range(no_full_stars), range(no_half_stars), range(no_empty_stars)
+        
+
+
 def rate(request):
     submit = False
     if  request.method == "POST":
@@ -128,11 +166,18 @@ def create_account(request):
 
 def venue_page(request, venue_name_slug):
 
+    
+
     context_dict = {}
 
     try:
         venue = Venue.objects.get(name_slug=venue_name_slug)
         context_dict['venue'] = venue
+
+        ratings = Rating.objects.filter(about=venue)
+
+        star_rating = StarRating(ratings)
+        context_dict['sr'] = star_rating
 
     except Venue.DoesNotExist:
         context_dict['venue'] = None
