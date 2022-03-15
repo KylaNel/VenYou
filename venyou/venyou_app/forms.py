@@ -2,10 +2,12 @@ from django import forms
 from django.db import models
 from django.forms import ModelForm
 from django.core.validators import MaxValueValidator, MinValueValidator
-from .models import Rating, Venue
+
+from venyou_app.models import Rating, Venue, UserProfile
+from django.contrib.auth.models import User
 
 
-class RatingsForm(forms.ModelForm):
+class RatingsForm(ModelForm):
     class Meta:
         model = Rating
         fields = ('hygiene_score', 'vibe_score', 'safety_score',
@@ -24,7 +26,7 @@ class RatingsForm(forms.ModelForm):
         }
 
 
-class VenueForm(forms.ModelForm):
+class VenueForm(ModelForm):
     name = forms.CharField(max_length=Venue.NAME_MAX_LENGTH,
                           help_text="Venue Name:")
     description = forms.CharField(max_length=Venue.DESC_MAX_LENGTH,
@@ -35,3 +37,16 @@ class VenueForm(forms.ModelForm):
     class Meta:
         model = Venue
         exclude = ('owner',)
+
+
+class UserForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+class UserProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('picture', 'is_owner')

@@ -1,15 +1,16 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 
 from django.http import HttpResponseRedirect, HttpResponse
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
-from venyou_app.forms import RatingsForm, VenueForm
+from django.contrib.auth.models import User
 from venyou_app.models import UserProfile, Rating, Venue
+
+from venyou_app.forms import RatingsForm, VenueForm, UserProfileForm, UserForm
 
 # Create your views here.
 
@@ -71,7 +72,7 @@ def user_logout(request):
 
 @login_required
 def add_venue(request):
-    form = VenueForm
+    form = VenueForm()
 
     user = User.objects.get(username=request.user.username)
     user_profile = UserProfile.objects.get(user=user)
@@ -89,3 +90,37 @@ def add_venue(request):
         return render(request, 'venyou_app/add_venue.html', context_dict)
     else:
         return redirect(reverse('venyou_app:myaccount'))
+
+def create_account(request):
+
+
+    already_created = False
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            user_profile = user_profile_form.save(commit=False)
+            user_profile.user = user
+
+            if 'picture' in request.FILES:
+                user_profile.picture = request.FILES['picture']
+
+            user_profile.save()
+
+            login(request, user)
+            already_created = True
+
+    else:
+        user_form = UserForm()
+        user_profile_form = UserProfileForm()
+    
+    context_dict = {'user_form':user_form,
+                    'user_profile_form':user_profile_form,
+                    'created':already_created}
+    return render(request, 'venyou_app/create_account.html',  context_dict)

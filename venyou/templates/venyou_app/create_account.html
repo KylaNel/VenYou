@@ -1,0 +1,26 @@
+{% extends 'venyou_app/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Venyou - Create Account
+{% endblock %}
+
+
+{% block body_block %}
+    <div class="content">
+        <div class="list_display_tag" ><h4>Create Account</h4></div>
+        <div class="list_display" >
+            {% if created %}
+                <h3>You have created an account. </h3>
+            {% else %}
+            <form id="user_form" method="post" action="{% url 'venyou_app:create_account' %}">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ user_profile_form.as_p }}
+                <input type="submit" value="Create Account" />
+            </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
