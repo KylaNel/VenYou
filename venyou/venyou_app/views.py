@@ -1,15 +1,17 @@
-from django.shortcuts import render
-from .forms import RatingsForm
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
+
+from django.http import HttpResponseRedirect, HttpResponse
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
+from venyou_app.forms import RatingsForm
+from venyou_app.models import UserProfile, Rating, Venue
 
 # Create your views here.
-
-
-def index(request):
-    return render(request, 'venyou_app/base.html')
-
 
 def rate(request):
     submit = False
@@ -24,9 +26,45 @@ def rate(request):
             submit = True
 
     return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit})
-    
+
 def home(request):
     return render(request, 'venyou_app/home.html')
 
 def map(request):
     return render(request, 'venyou_app/map.html')
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('venyou_app:home'))
+            else:
+                return render(request, 'venyou_app/login.html', {'error':'Your account is disabled.'})
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return render(request, 'venyou_app/login.html', {'error':'Invalid login details supplied.'})
+    else:
+        return render(request, 'venyou_app/login.html')
+
+@login_required
+def myaccount(request):
+
+    user = User.objects.get(username=request.user.username)
+    user_profile = UserProfile.objects.get(user=user)
+
+    ratings = Rating.objects.filter(writer=user_profile)
+    venues = Venue.objects.filter(owner=user_profile)
+
+    context_dict = {'user_profile':user_profile, 'ratings':ratings, 'venues':venues}
+    return render(request, 'venyou_app/myaccount.html', context=context_dict)
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('venyou_app:home'))

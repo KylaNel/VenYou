@@ -16,6 +16,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -123,3 +125,13 @@ USE_TZ = True
 STATICFILES_DIRS = [STATIC_DIR,]
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
+
+
+# Media Files
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
+
+
+# Login
+
+LOGIN_URL = '/venyou/login/'

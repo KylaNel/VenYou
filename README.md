@@ -21,3 +21,8 @@ Django 2.2.26
 # How to run tests
 
 Run the command `python venyou/manage.py test venyou_app`
+
+# Superuser details
+
+Username: admin
+Password: password

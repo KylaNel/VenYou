@@ -1,0 +1,64 @@
+{% extends 'venyou_app/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    VenYou - My Account
+{% endblock %}
+
+{% block body_block %}
+    <h1 class="page_title">Welcome, {{ user.username }}</h1>
+
+    <h1><a href="{% url 'venyou_app:logout' %}">Log Out</a></h1>
+    <!--<img src="{{ user_profile.picture.url }}" width="100" \>-->
+    <div>
+        {% if user_profile.is_owner %}
+        
+        <!--
+        <div id="owner_account_message">Owner Account</div>
+        -->
+
+        <div class="content" >
+            <div class="list_display_tag"><h4>Your venues:</h4></div>
+            <div class="list_display">
+                <ul>
+                    {% if venues %}
+                    yes
+                    {% for venue in venues %}
+                        {{ venue.name }}
+
+                    {% endfor %}
+                    {% else %}
+                    <strong>You do not have any venues.</strong>
+                    {% endif %}
+                </ul>
+                <div>
+                    <form action="">
+                        <div class="centered_button_wrapper"><input class="centered_button" type="submit" value="Add new venue"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <div class="content">
+            <div class="list_display_tag"><h4>Your reviews:</h4></div>
+            <div class="list_display">
+                <ul>
+                    {% for el in ratings %}
+                        <div class="rating_listing">
+                            <img alt="Rating listing" />
+                            <h3>{{ el.about.name }}</h3>
+                            <p>{{ el.comment }}</p>
+                            <p>
+                                Hygiene Score: {{ el.hygiene_score }}
+                                Vibe Score: {{ el.vibe_score }}
+                                Safety Score: {{ el.safety_score }}
+                            </p>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
