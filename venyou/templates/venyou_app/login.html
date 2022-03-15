@@ -6,13 +6,31 @@
 {% endblock %}
 
 {% block body_block %}
-    Login
-    <form id="login_form" method="post" action="{% url 'venyou_app:login' %}" >
-        {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50" />
-        <br />
-        Password: <input type="password" name="password" value="" size="50" />
-        <br />
-        <input type="submit" value="submit" />
-    </form>
+
+
+    <div class="content" >
+        <div class="list_display_tag"><h4>Login</h4></div>
+        <div class="list_display" >
+
+                    
+            {% if error %}
+            <div id="login_error">{{ error }}</div>
+            {% endif %}
+
+            <form id="login_form" method="post" action="{% url 'venyou_app:login' %}" >
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Username:</td>
+                        <td><input type="text" name="username" value="" size="50" /></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input type="password" name="password" value="" size="50" /></td>
+                    </tr>
+                </table>
+                <div class="centered_button_wrapper"><input class="centered_button" type="submit" value="submit" />
+            </form>
+        </div>
+    </div>
 {% endblock %}

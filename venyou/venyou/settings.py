@@ -130,3 +130,8 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 # Media Files
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
+
+
+# Login
+
+LOGIN_URL = '/venyou/login/'

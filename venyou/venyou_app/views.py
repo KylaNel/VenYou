@@ -45,12 +45,10 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('venyou_app:home'))
             else:
-                ## User is not active
-                ## CHANGE THIS
-                return HttpResponse('Your account is disabled.')
+                return render(request, 'venyou_app/login.html', {'error':'Your account is disabled.'})
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse('Invalid login details supplied.')
+            return render(request, 'venyou_app/login.html', {'error':'Invalid login details supplied.'})
     else:
         return render(request, 'venyou_app/login.html')
 
@@ -61,6 +59,12 @@ def myaccount(request):
     user_profile = UserProfile.objects.get(user=user)
 
     ratings = Rating.objects.filter(writer=user_profile)
+    venues = Venue.objects.filter(owner=user_profile)
 
-    context_dict = {'user_profile':user_profile, 'ratings':ratings, }
+    context_dict = {'user_profile':user_profile, 'ratings':ratings, 'venues':venues}
     return render(request, 'venyou_app/myaccount.html', context=context_dict)
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('venyou_app:home'))

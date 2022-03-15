@@ -88,3 +88,73 @@
     font-family: Montserrat, sans-serif;
     line-height: 1.5;
   }
+
+
+.page_title{
+  text-align: center;
+  width: 100%;
+}
+
+#owner_account_message{
+  background-color: #ff0000;
+}
+
+.content{
+  width: 90%;
+  margin:auto;
+  margin-bottom: 50px;
+  margin-top: 40px;
+}
+
+.list_display{
+  background-color: white;
+  border: 6px double #aaaaaa;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.list_display_tag{
+  width: fit-content;
+  background-color: #cccccc;
+  border: 6px double #aaaaaa;
+  border-radius: 6px;
+  padding: 0px 10px 0px 10px;
+  margin-bottom: 10px;
+}
+
+.list_display_tag h4{
+  margin: 0px;
+}
+
+.centered_button_wrapper{
+  text-align: center;
+}
+
+.centered_button{
+  padding: 5px;
+  background-color: #57aca0;
+  border-radius: 6px;
+  border-color: #aaaaaa;
+}
+
+.rating_listing{
+  background-color: #eeeeee;
+}
+
+.rating_listing img{
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin: 10px;
+}
+
+#login_error{
+  background-color: #ff645c;
+  padding: 5px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+#login_form table{
+  margin: auto;
+}

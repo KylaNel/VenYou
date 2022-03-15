@@ -6,5 +6,16 @@
 {% endblock %}
 
 {% block body_block %}
-Home!
+    <h1 class="page_title" >Venyou</h1>
+
+    {% if user.is_authenticated %}
+    <div>
+        <a href="{% url 'venyou_app:logout' %}">Logout</a>
+    </div>
+    {% else %}
+    <div>
+        <a href="{% url 'venyou_app:login' %}">Login</a>
+    </div>
+    {% endif %}
+
 {% endblock %}
