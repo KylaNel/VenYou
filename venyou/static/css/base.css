@@ -60,6 +60,10 @@
     border-radius: 10em;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
   }
+  #map {
+    height: 900px;
+    width: 100%;
+  }
   .slide1 {
     background-color: rgb(73, 138, 182);
     z-index: 2;
@@ -70,7 +74,7 @@
     z-index: 1;
   }
   
-  *,
+  /* *,
   *::before,
   *::after {
     box-sizing: border-box;
@@ -85,6 +89,7 @@
     justify-content: center;
     align-items: center;
     background-color: #c0e4db;
+    background-color: #0c0e0d;
     font-family: Montserrat, sans-serif;
     line-height: 1.5;
-  }
+  } */
