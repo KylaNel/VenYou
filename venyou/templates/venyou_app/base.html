@@ -13,10 +13,14 @@
 
         <!-- CSS AND JS FOR DJANGO -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
+        <script src="{% static 'js/test-jquery.js' %}"></script>
         <script src="{% static 'js/base.js' %}"></script>
 
         <!-- CSS AND JS IMPORTS FOR VSCODE TESTING -->
         <!-- <link rel="stylesheet" href="base.css">
+        <script src="jquery-3.3.1.min.js"></script>
+        <script src="test-jquery.js"></script>
         <script src="base.js"></script> -->
 
         <ul id="nav-1"> 
@@ -39,6 +43,7 @@
     <body>
         <div>
         {% block body_block %}
+            The body.
         {% endblock %}
         </div>
     </body>
