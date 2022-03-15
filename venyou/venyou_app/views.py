@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from venyou_app.forms import RatingsForm
+from venyou_app.forms import RatingsForm, VenueForm
 from venyou_app.models import UserProfile, Rating, Venue
 
 # Create your views here.
@@ -68,3 +68,24 @@ def myaccount(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('venyou_app:home'))
+
+@login_required
+def add_venue(request):
+    form = VenueForm
+
+    user = User.objects.get(username=request.user.username)
+    user_profile = UserProfile.objects.get(user=user)
+    if user_profile and user_profile.is_owner:
+
+        if request.method == 'POST':
+            form = VenueForm(request.POST)
+            if form.is_valid():
+                venue = form.save(commit=False)
+                venue.owner = user_profile
+                venue.save()
+                return redirect(reverse('venyou_app:myaccount'))
+        
+        context_dict = {'user_profile':user_profile, 'form':form}
+        return render(request, 'venyou_app/add_venue.html', context_dict)
+    else:
+        return redirect(reverse('venyou_app:myaccount'))

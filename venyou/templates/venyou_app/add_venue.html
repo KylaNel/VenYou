@@ -1,0 +1,27 @@
+{% extends 'venyou_app/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Venyou - Add venue
+{% endblock %}
+
+{% block body_block %}
+
+    <div class="content">
+        <div class="list_display_tag"><h4>Add a new venue</h4></div>
+        <div class="list_display">
+            <form id="venue_form" method="post" action="{% url 'venyou_app:add_venue' %}">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {{ field }} <br>
+                {% endfor %}
+                <input type="submit" name="submit" value="Add New Venue" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

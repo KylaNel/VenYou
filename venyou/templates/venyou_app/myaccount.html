@@ -9,7 +9,6 @@
     <h1 class="page_title">Welcome, {{ user.username }}</h1>
 
     <h1><a href="{% url 'venyou_app:logout' %}">Log Out</a></h1>
-    <!--<img src="{{ user_profile.picture.url }}" width="100" \>-->
     <div>
         {% if user_profile.is_owner %}
         
@@ -22,7 +21,6 @@
             <div class="list_display">
                 <ul>
                     {% if venues %}
-                    yes
                     {% for venue in venues %}
                         {{ venue.name }}
 
@@ -32,7 +30,7 @@
                     {% endif %}
                 </ul>
                 <div>
-                    <form action="">
+                    <form action="{% url 'venyou_app:add_venue' %}">
                         <div class="centered_button_wrapper"><input class="centered_button" type="submit" value="Add new venue"></div>
                     </form>
                 </div>
