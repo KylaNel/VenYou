@@ -11,4 +11,5 @@ urlpatterns = [
     path('rate/', views.rate, name='rate'),
     path('', views.home, name='home'),
     path('map/', views.map, name='map'),
+    path('myaccount/', views.myaccount, name='myaccount'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
