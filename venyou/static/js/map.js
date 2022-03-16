@@ -17,6 +17,6 @@ function initMap() {
     // MAP MARKER POSITIONED AT LOCATION
     const marker = new google.maps.Marker({
         position: subClub,
-        map: Map,
+        map,
     });
 }

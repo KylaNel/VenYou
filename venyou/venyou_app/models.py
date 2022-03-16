@@ -25,6 +25,7 @@ class Venue(models.Model):
     address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    banner_picture = models.ImageField()
     name_slug = models.SlugField(unique=True)
 
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

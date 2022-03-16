@@ -9,6 +9,36 @@
     <center>
         <h1>Leave a rating for {{venue.name}}</h1>
         <br/> <br/>
+
+        {% if submit %}
+            Your Ratings were submitted successfully
+            <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">Return to {{venue.name}}</a>
+        {% else %}
+        <div class="content" >
+            <div class="display_left">
+                <div class="list_display_tag" ><h4>Rate these categories:</h4></div>
+                <div class="list_display" >
+                    Stars thing
+                </div>
+            </div>
+            <div class="display_right" >
+                <div class="list_display_tag"><h4>How was your experience?</h4></div>
+                <div class="list_display" >
+                    
+                </div>
+            </div>
+            <form id="rate" action="" method="POST">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <input type="submit" value="Submit" class="btn btn-secondary" >
+
+            </form>
+        </div>
+        {% endif %}
+
+        <!--
         {% if submit %}
             Your Ratings were submitted successfully
             <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">Return to {{venue.name}}</a>
@@ -26,5 +56,6 @@
                 </div>
             </div>
         {% endif %}
+        -->
     </center>
 {% endblock %}
