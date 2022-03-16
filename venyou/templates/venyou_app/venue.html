@@ -12,6 +12,9 @@
 
             <h1 class="page_title"> {{ venue.name }}</h1>
 
+            <p class="page_title"> {{ venue.description }}</p>
+            <p class="page_title"> {{ venue.address }}</p>
+
             <div id="venue_rating_bar">
                 {% if sr.has_been_rated %}
 
@@ -66,8 +69,40 @@
             </div>
 
             <div>
-                <div>Events Div</div>
-                <div>Reviews</div>
+                <div class="display_left list_display" >
+                    <b>Events:</b>
+                    <ul>
+                    {% if events %}
+
+                        {% for event in events %}
+                        <li>Event at {{event.date }} hosted by {{ event.organiser }}</li>
+                        {% endfor %}
+
+                    {% else %}
+                        <strong>At the moment there are no events for this venue.</strong>
+                    {% endif %}
+                    </ul>
+                </div>
+                <div class="display_right list_display">
+                    <b>Reviews:</b>
+                    <ul>
+                    {% if ratings %}
+                    
+                        {% for rating in ratings %}
+                        <li>Rating by {{ rating.writer.user.username }} on {{ rating.date }}</li>
+                        {% endfor %}
+                    
+                    {% else %}
+                        <strong>Be the first to rate this venue.</strong>
+                    {% endif %}
+                    </ul>
+
+                    <form action="{% url 'venyou_app:rate' venue.name_slug %}">
+                    <div class="centered_button_wrapper" >
+                        <input class="centered_button" type="submit" value="Write a new rating for this Venue" />
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     {% else %}

@@ -257,3 +257,13 @@
 .active, .dot:hover {
   background-color: #717171;
 }
+
+.display_left{
+  width: 45%;
+  float: left;
+}
+
+.display_right{
+  width: 45%;
+  float: right;
+}

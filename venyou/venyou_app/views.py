@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
-from venyou_app.models import UserProfile, Rating, Venue
+from venyou_app.models import UserProfile, Rating, Venue, Event
 
 from venyou_app.forms import RatingsForm, VenueForm, UserProfileForm, UserForm
 
@@ -183,9 +183,12 @@ def venue_page(request, venue_name_slug):
         context_dict['venue'] = venue
 
         ratings = Rating.objects.filter(about=venue)
+        events = Event.objects.filter(venue=venue)
 
         star_rating = StarRating(ratings)
         context_dict['sr'] = star_rating
+        context_dict['ratings'] = ratings
+        context_dict['events'] = events
 
     except Venue.DoesNotExist:
         context_dict['venue'] = None
