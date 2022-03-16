@@ -66,22 +66,35 @@
             </div>
 
             <div>
-                <div class="display_left list_display" >Events Div</div>
+                <div class="display_left list_display" >
+                    <b>Events:</b>
+                    <ul>
+                    {% if events %}
+
+                        {% for event in events %}
+                        <li>Event at {{event.date }} hosted by {{ event.organiser }}</li>
+                        {% endfor %}
+
+                    {% else %}
+                        <strong>At the moment there are no events for this venue.</strong>
+                    {% endif %}
+                    </ul>
+                </div>
                 <div class="display_right list_display">
                     <b>Reviews:</b>
-                    {% if ratings %}
                     <ul>
+                    {% if ratings %}
+                    
                         {% for rating in ratings %}
-                        {{ rating.writer.username }}
-                        help
+                        <li>Rating by {{ rating.writer.user.username }} on {{ rating.date }}</li>
                         {% endfor %}
-                    </ul>
+                    
                     {% else %}
                         <strong>Be the first to rate this venue.</strong>
                     {% endif %}
-                    
+                    </ul>
 
-                    <form action="">
+                    <form action="{% url 'venyou_app:rate' venue.name_slug %}">
                     <div class="centered_button_wrapper" >
                         <input class="centered_button" type="submit" value="Write a new rating for this Venue" />
                     </div>
