@@ -9,7 +9,6 @@ app_name = 'venyou_app'
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('rate/', views.rate, name='rate'),
     path('map/', views.map, name='map'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
@@ -17,4 +16,5 @@ urlpatterns = [
     path('add_venue/', views.add_venue, name='add_venue'),
     path('create_account/', views.create_account, name='create_account'),
     path('venue/<slug:venue_name_slug>/', views.venue_page, name='venue_page'),
+    path('venue/<slug:venue_name_slug>/rate/', views.rate, name='rate'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

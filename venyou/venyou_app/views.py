@@ -1,5 +1,5 @@
 from multiprocessing import context
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from django.http import HttpResponseRedirect, HttpResponse
@@ -51,20 +51,28 @@ class StarRating:
         return range(no_full_stars), range(no_half_stars), range(no_empty_stars)
         
 
+@login_required
+def rate(request, venue_name_slug):
+    venue = get_object_or_404(Venue, name_slug=venue_name_slug)
+    user = User.objects.get(username=request.user.username)
+    user_profile = UserProfile.objects.get(user=user)
 
-def rate(request):
     submit = False
     if  request.method == "POST":
         form = RatingsForm(request.POST)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/rate?submit=True')
+            rating = form.save(commit=False)
+            rating.about = venue
+            rating.writer = user_profile
+            rating.save()
+            submit = True
+            #return redirect(reverse('venyou_app:rate', kwargs={'venue_name_slug':venue_name_slug}))
     else:
         form = RatingsForm()
-        if 'submit' in request.GET:
-            submit = True
+        #if 'submit' in request.GET:
+        #    submit = True
 
-    return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit})
+    return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit, 'venue':venue})
 
 def home(request):
     return render(request, 'venyou_app/home.html')

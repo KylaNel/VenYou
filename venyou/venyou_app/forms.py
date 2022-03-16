@@ -13,16 +13,16 @@ class RatingsForm(ModelForm):
         fields = ('hygiene_score', 'vibe_score', 'safety_score',
                   'comment')
         labels = {
-            'hygiene_score': '',
-            'vibe_score': '',
-            'safety_score': '',
-            'comment': '',
+            'hygiene_score': 'Hygiene Rating:',
+            'vibe_score': 'Vibe Rating:',
+            'safety_score': 'Safety Rating:',
+            'comment': 'Additional Comment:',
         }
         widgets = {
             'hygiene_score': forms.TextInput(attrs={'class': 'form-control', 'type' : 'number'  ,'placeholder': 'Rate hygiene score out of 5'}),
             'vibe_score': forms.TextInput(attrs={'class': 'form-control', 'type': 'number','placeholder': 'Rate the vibe score out of 5'}),
             'safety_score': forms.TextInput(attrs={'class': 'form-control','type' : 'number', 'placeholder': 'Rate the safety score out of 5'}),
-            'comment': forms.TextInput(attrs={'class': 'form-control', 'type': 'number', 'placeholder': 'Any other comments?'}),
+            'comment': forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Any other comments?'}),
         }
 
 
