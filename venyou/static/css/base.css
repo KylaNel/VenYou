@@ -298,12 +298,12 @@
   position: absolute;
   left: 0;
   width: 22em;
-  height: 713px;
+  height: 720px;
   top: 5px;
   bottom: 0;
   overflow-y: auto;
   background: white;
-  padding: 0.5em;
+  /* padding: 0.5em; */
   box-sizing: border-box;
 }
 
@@ -420,4 +420,12 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+#hometomap-button {
+  padding: 20px;
+  margin: 20px auto;
+  text-align: center;
+  display: block;
+  width: 200px;
 }
