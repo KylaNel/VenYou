@@ -186,6 +186,7 @@ def venue_page(request, venue_name_slug):
 
         star_rating = StarRating(ratings)
         context_dict['sr'] = star_rating
+        context_dict['ratings'] = ratings
 
     except Venue.DoesNotExist:
         context_dict['venue'] = None

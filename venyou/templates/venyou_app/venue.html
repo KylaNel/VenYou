@@ -66,8 +66,27 @@
             </div>
 
             <div>
-                <div>Events Div</div>
-                <div>Reviews</div>
+                <div class="display_left list_display" >Events Div</div>
+                <div class="display_right list_display">
+                    <b>Reviews:</b>
+                    {% if ratings %}
+                    <ul>
+                        {% for rating in ratings %}
+                        {{ rating.writer.username }}
+                        help
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <strong>Be the first to rate this venue.</strong>
+                    {% endif %}
+                    
+
+                    <form action="">
+                    <div class="centered_button_wrapper" >
+                        <input class="centered_button" type="submit" value="Write a new rating for this Venue" />
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     {% else %}
