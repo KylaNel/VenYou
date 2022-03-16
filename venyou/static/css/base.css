@@ -429,3 +429,18 @@
   display: block;
   width: 200px;
 }
+
+.featured-events {
+  border: 1px solid rgb(1, 59, 63);
+  display: block;
+  margin: 50px;
+  background-color: rgba(240, 230, 140, 0.644);
+  border-radius: 1em;
+}
+
+.featured-events .event {
+  border-radius: 2em;
+  background-color: #57aca19f;
+  padding: 5px;
+  margin: 5px;
+}
