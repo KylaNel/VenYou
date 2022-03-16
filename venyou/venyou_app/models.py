@@ -23,6 +23,8 @@ class Venue(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     name_slug = models.SlugField(unique=True)
 
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

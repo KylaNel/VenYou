@@ -2,6 +2,8 @@ function initMap() {
     // LOCATIONS
     const subClub = { lat: 55.85802559710552, lng: -4.25716789944254 };
 
+    
+
 
     // MAP CENTRED AT LOCATION
     const map = new google.maps.Map(
