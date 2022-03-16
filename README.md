@@ -26,3 +26,6 @@ Run the command `python venyou/manage.py test venyou_app`
 
 Username: admin
 Password: password
+
+Username: VenYou
+Password: Venue_Team12C
