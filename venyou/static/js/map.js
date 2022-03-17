@@ -1,25 +1,14 @@
-// function initMap() {
-//     // LOCATIONS
-//     const subClub = { lat: 55.85802559710552, lng: -4.25716789944254 };
-
-
-//     // MAP CENTRED AT LOCATION
-//     const map = new google.maps.Map(
-//         document.getElementById("map"),
-//         {
-//             zoom: 18,
-//             center: subClub,
-//         }
-//     );
-
-//     // MAP MARKER POSITIONED AT LOCATION
-//     const marker = new google.maps.Marker({
-//         position: subClub,
-//         map: Map,
-//     });
-// }
-
 'use strict';
+
+/** Hide a DOM element. */
+function hideElement(el) {
+  el.style.display = 'none';
+}
+
+/** Show a DOM element that has been hidden. */
+function showElement(el) {
+  el.style.display = 'block';
+}
 
 /**
  * Defines an instance of the Locator+ solution, to be instantiated
@@ -99,6 +88,11 @@ function LocatorPlus(configuration) {
   const getLocationDistance = function(location) {
     if (!locator.searchLocation) return null;
 
+    // Use travel distance if available (from Distance Matrix).
+    if (location.travelDistanceValue != null) {
+      return location.travelDistanceValue;
+    }
+
     // Fall back to straight-line distance.
     return google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(location.coords),
@@ -124,7 +118,10 @@ function LocatorPlus(configuration) {
     } else {
       sectionNameEl.textContent = `All locations (${locations.length})`;
     }
-    const resultItemContext = { locations: locations };
+    const resultItemContext = {
+      locations: locations,
+      showDirectionsButton: !!locator.searchLocation
+    };
     resultsContainerEl.innerHTML = itemsTemplate(resultItemContext);
     for (let item of resultsContainerEl.children) {
       const resultIndex = getResultIndex(item);
@@ -133,6 +130,9 @@ function LocatorPlus(configuration) {
       }
 
       const resultSelectionHandler = function() {
+        if (resultIndex !== locator.selectedLocationIdx) {
+          locator.clearDirections();
+        }
         selectResultItem(resultIndex, true, false);
       };
 
@@ -145,11 +145,28 @@ function LocatorPlus(configuration) {
             resultSelectionHandler();
             e.stopPropagation();
           });
+
+      item.querySelector('.details-button')
+          .addEventListener('click', function() {
+            locator.showDetails(resultIndex);
+          });
+
+      if (resultItemContext.showDirectionsButton) {
+        item.querySelector('.show-directions')
+            .addEventListener('click', function(e) {
+              selectResultItem(resultIndex, false, false);
+              locator.updateDirections();
+              e.stopPropagation();
+            });
+      }
     }
   };
 
   // Optional capability initialization --------------------------------------
   initializeSearchInput(locator);
+  initializeDistanceMatrix(locator);
+  initializeDirections(locator);
+  initializeDetails(locator);
 
   // Initial render of results -----------------------------------------------
   locator.renderResultsList();
@@ -196,6 +213,10 @@ function initializeSearchInput(locator) {
 
     // Update the result list so we can sort it by proximity.
     locator.renderResultsList();
+
+    locator.updateTravelTimes();
+
+    locator.clearDirections();
   };
 
   const geocodeSearch = function(query) {
@@ -230,10 +251,202 @@ function initializeSearchInput(locator) {
     geocodeSearch(searchInputEl.value.trim());
   });
 
-  // Add in an event listener for the Enter key.
-  searchInputEl.addEventListener('keypress', function(evt) {
-    if (evt.key === 'Enter') {
-      geocodeSearch(searchInputEl.value);
-    }
+  // Initialize Autocomplete.
+  initializeSearchInputAutocomplete(
+      locator, searchInputEl, geocodeSearch, updateSearchLocation);
+}
+
+/** Add Autocomplete to the search input. */
+function initializeSearchInputAutocomplete(
+    locator, searchInputEl, fallbackSearch, searchLocationUpdater) {
+  // Set up Autocomplete on the search input. Bias results to map viewport.
+  const autocomplete = new google.maps.places.Autocomplete(searchInputEl, {
+    types: ['geocode'],
+    fields: ['place_id', 'formatted_address', 'geometry.location']
   });
+  autocomplete.bindTo('bounds', locator.map);
+  autocomplete.addListener('place_changed', function() {
+    const placeResult = autocomplete.getPlace();
+    if (!placeResult.geometry) {
+      // Hitting 'Enter' without selecting a suggestion will result in a
+      // placeResult with only the text input value as the 'name' field.
+      fallbackSearch(placeResult.name);
+      return;
+    }
+    searchLocationUpdater(
+        placeResult.formatted_address, placeResult.geometry.location);
+  });
+}
+
+/** Initialize Distance Matrix for the locator. */
+function initializeDistanceMatrix(locator) {
+  const distanceMatrixService = new google.maps.DistanceMatrixService();
+
+  // Annotate travel times to the selected location using Distance Matrix.
+  locator.updateTravelTimes = function() {
+    if (!locator.searchLocation) return;
+
+    const units = (locator.userCountry === 'USA') ?
+        google.maps.UnitSystem.IMPERIAL :
+        google.maps.UnitSystem.METRIC;
+    const request = {
+      origins: [locator.searchLocation.location],
+      destinations: locator.locations.map(function(x) {
+        return x.coords;
+      }),
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: units,
+    };
+    const callback = function(response, status) {
+      if (status === 'OK') {
+        const distances = response.rows[0].elements;
+        for (let i = 0; i < distances.length; i++) {
+          const distResult = distances[i];
+          let travelDistanceText, travelDistanceValue;
+          if (distResult.status === 'OK') {
+            travelDistanceText = distResult.distance.text;
+            travelDistanceValue = distResult.distance.value;
+          }
+          const location = locator.locations[i];
+          location.travelDistanceText = travelDistanceText;
+          location.travelDistanceValue = travelDistanceValue;
+        }
+
+        // Re-render the results list, in case the ordering has changed.
+        locator.renderResultsList();
+      }
+    };
+    distanceMatrixService.getDistanceMatrix(request, callback);
+  };
+}
+
+/** Initialize Directions service for the locator. */
+function initializeDirections(locator) {
+  const directionsCache = new Map();
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer({
+    suppressMarkers: true,
+  });
+
+  // Update directions displayed from the search location to
+  // the selected location on the map.
+  locator.updateDirections = function() {
+    if (!locator.searchLocation || (locator.selectedLocationIdx == null)) {
+      return;
+    }
+    const cacheKey = JSON.stringify(
+        [locator.searchLocation.location, locator.selectedLocationIdx]);
+    if (directionsCache.has(cacheKey)) {
+      const directions = directionsCache.get(cacheKey);
+      directionsRenderer.setMap(locator.map);
+      directionsRenderer.setDirections(directions);
+      return;
+    }
+    const request = {
+      origin: locator.searchLocation.location,
+      destination: locator.locations[locator.selectedLocationIdx].coords,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    directionsService.route(request, function(response, status) {
+      if (status === 'OK') {
+        directionsRenderer.setMap(locator.map);
+        directionsRenderer.setDirections(response);
+        directionsCache.set(cacheKey, response);
+      }
+    });
+  };
+
+  locator.clearDirections = function() {
+    directionsRenderer.setMap(null);
+  };
+}
+
+/** Initialize Place Details service and UI for the locator. */
+function initializeDetails(locator) {
+  const panelDetailsEl = document.getElementById('locations-panel-details');
+  const detailsService = new google.maps.places.PlacesService(locator.map);
+
+  const detailsTemplate = Handlebars.compile(
+      document.getElementById('locator-details-tmpl').innerHTML);
+
+  const renderDetails = function(context) {
+    panelDetailsEl.innerHTML = detailsTemplate(context);
+    panelDetailsEl.querySelector('.back-button')
+        .addEventListener('click', hideDetails);
+  };
+
+  const hideDetails = function() {
+    showElement(locator.panelListEl);
+    hideElement(panelDetailsEl);
+  };
+
+  locator.showDetails = function(locationIndex) {
+    const location = locator.locations[locationIndex];
+    const context = {location};
+
+    // Helper function to create a fixed-size array.
+    const initArray = function(arraySize) {
+      const array = [];
+      while (array.length < arraySize) {
+        array.push(0);
+      }
+      return array;
+    };
+
+    if (location.placeId) {
+      const request = {
+        placeId: location.placeId,
+        fields: [
+          'formatted_phone_number', 'website', 'opening_hours', 'url',
+          'utc_offset_minutes', 'price_level', 'rating', 'user_ratings_total'
+        ]
+      };
+      detailsService.getDetails(request, function(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          if (place.opening_hours) {
+            const daysHours =
+                place.opening_hours.weekday_text.map(e => e.split(/\:\s+/))
+                    .map(e => ({'days': e[0].substr(0, 3), 'hours': e[1]}));
+
+            for (let i = 1; i < daysHours.length; i++) {
+              if (daysHours[i - 1].hours === daysHours[i].hours) {
+                if (daysHours[i - 1].days.indexOf('-') !== -1) {
+                  daysHours[i - 1].days =
+                      daysHours[i - 1].days.replace(/\w+$/, daysHours[i].days);
+                } else {
+                  daysHours[i - 1].days += ' - ' + daysHours[i].days;
+                }
+                daysHours.splice(i--, 1);
+              }
+            }
+            place.openingHoursSummary = daysHours;
+          }
+          if (place.rating) {
+            const starsOutOfTen = Math.round(2 * place.rating);
+            const fullStars = Math.floor(starsOutOfTen / 2);
+            const halfStars = fullStars !== starsOutOfTen / 2 ? 1 : 0;
+            const emptyStars = 5 - fullStars - halfStars;
+
+            // Express stars as arrays to make iterating in Handlebars easy.
+            place.fullStarIcons = initArray(fullStars);
+            place.halfStarIcons = initArray(halfStars);
+            place.emptyStarIcons = initArray(emptyStars);
+          }
+          if (place.price_level) {
+            place.dollarSigns = initArray(place.price_level);
+          }
+          if (place.website) {
+            const url = new URL(place.website);
+            place.websiteDomain = url.hostname;
+          }
+
+          context.place = place;
+          renderDetails(context);
+        }
+      });
+    }
+    renderDetails(context);
+    hideElement(locator.panelListEl);
+    showElement(panelDetailsEl);
+  };
 }
