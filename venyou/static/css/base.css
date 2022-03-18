@@ -14,10 +14,11 @@
     /* display: inline; */
     float: left;
   }
-  #nav-1 li a {
+  #nav-1 li button a {
     position: relative;
     /* background-color: rgb(71, 134, 134); */
     /* font-size: 18px; */
+    /* padding: 0.6em 2em; */
     border: none;
     outline: none;
     color: #333;
@@ -30,7 +31,7 @@
     border: none;
     /* margin-top: 20px; */
     font-size: 17px;
-    color: rgb(119, 29, 29);
+    color: rgb(5, 5, 5);
   }
   #nav-1 .search-container button {
     padding: 6px 10px;
@@ -60,14 +61,17 @@
     border-radius: 10em;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
   }
-  .slide1 {
+  #nav-1 .slide1 {
     background-color: rgb(73, 138, 182);
     z-index: 2;
   }
- .slide2 {
+ #mav-1 .slide2 {
     opacity: 0;
     background: #ddd;
     z-index: 1;
+  }
+  #nav-1 .squeeze {
+    transform: scale(0.9);
   }
   
   *,
@@ -79,16 +83,17 @@
   html,
   body {
     height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
   }
   
   body {
-    /* justify-content: center;
-    align-items: center; */
+    justify-content: center;
+    align-items: center;
     background-color: #c0e4db;
-    /* font-family: Montserrat, sans-serif; */
-    /* line-height: 1.5; */
+    font-family: Montserrat, sans-serif;
+    line-height: 1.5;
   }
 
 
@@ -303,7 +308,7 @@
   bottom: 0;
   overflow-y: auto;
   background: white;
-  /* padding: 0.5em; */
+  padding: 0.5em;
   box-sizing: border-box;
 }
 
@@ -416,10 +421,161 @@
   margin-bottom: 0.5em;
 }
 
+#locations-panel-list .location-result .details-button {
+  font-size: 0.9em;
+  color: #7e7efd;
+}
+
+#locations-panel-list .location-result .distance {
+  position: absolute;
+  top: 0.9em;
+  right: 0;
+  text-align: center;
+  font-size: 0.9em;
+  width: 5em;
+}
+
+#locations-panel-list .show-directions {
+  position: absolute;
+  right: 1.2em;
+  top: 2.3em;
+}
+
 #location-results-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+/* ------------- DETAILS PANEL ------------------------------- */
+#locations-panel-details {
+  padding: 1.4em;
+  box-sizing: border-box;
+  display: none;
+}
+
+#locations-panel-details .back-button {
+  font-size: 1em;
+  font-weight: 500;
+  color: #7e7efd;
+  display: block;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+#locations-panel-details .back-button .icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: bottom;
+
+  /* Match link color #7e7efd */
+  filter: invert(65%) sepia(87%) saturate(4695%) hue-rotate(217deg) brightness(105%) contrast(98%);
+}
+
+#locations-panel-details > header {
+  text-align: center;
+}
+
+#locations-panel-details .banner {
+  margin-top: 1em;
+}
+
+#locations-panel-details h2 {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin-bottom: 0.3em;
+}
+
+#locations-panel-details .distance {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+#locations-panel-details .address {
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 1.3em;
+}
+
+#locations-panel-details .atmosphere {
+  text-align: center;
+  font-size: 0.9em;
+  margin: 0.8em 0;
+}
+
+#locations-panel-details .star-rating-numeric {
+  color: #555;
+}
+
+#locations-panel-details .star-icon {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: -0.3em;
+  margin-top: -0.08em;
+  vertical-align: top;
+  filter: invert(88%) sepia(60%) saturate(2073%) hue-rotate(318deg) brightness(93%) contrast(104%);
+}
+
+#locations-panel-details .star-icon:last-of-type {
+  margin-right: 0.2em;
+}
+
+#locations-panel-details .price-dollars {
+  color: #555;
+}
+
+#locations-panel-details hr {
+  height: 1px;
+  color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(0, 0, 0, 0.12);
+  border: none;
+  margin-bottom: 1em;
+}
+
+#locations-panel-details .contact {
+  font-size: 0.9em;
+  margin: 0.8em 0;
+  display: flex;
+  align-items: center;
+}
+
+#locations-panel-details .contact .icon {
+  flex: 0 0 auto;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+#locations-panel-details .contact .right {
+  padding: 0.1em 0 0 1em;
+}
+
+#locations-panel-details a {
+  text-decoration: none;
+  color: #7e7efd;
+}
+
+#locations-panel-details .hours .weekday {
+  display: inline-block;
+  width: 5em;
+}
+
+#locations-panel-details .website a {
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 16em;
+  text-overflow: ellipsis;
+}
+
+#locations-panel-details p.attribution {
+  color: #777;
+  margin: 0;
+  font-size: 0.8em;
+  font-style: italic;
 }
 
 #hometomap-button {
@@ -434,7 +590,7 @@
   border: 1px solid rgb(1, 59, 63);
   display: block;
   margin: 50px;
-  background-color: rgba(240, 230, 140, 0.644);
+  background-color: rgba(240, 230, 140, 0.767);
   border-radius: 1em;
 }
 
