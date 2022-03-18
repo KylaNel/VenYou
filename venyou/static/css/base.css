@@ -274,8 +274,7 @@
 /* MAP STUFF */
 #map-container {
   width: 100%;
-  height: 100%;
-  padding: 10px;
+  height: 200%;
   position: relative;
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -294,17 +293,17 @@
 #map {
   position: absolute;
   left: 22em;
-  top: 82.5px;
+  top: 77px;
   right: 0;
   bottom: 0;
 }
 
 #locations-panel {
-  position: absolute;
+  /* position: absolute; */
   left: 0;
   width: 22em;
-  height: 720px;
-  top: 5px;
+  height: 100%;
+  top: 0;
   bottom: 0;
   overflow-y: auto;
   background: white;
