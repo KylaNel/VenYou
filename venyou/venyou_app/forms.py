@@ -32,7 +32,12 @@ class VenueForm(ModelForm):
     description = forms.CharField(max_length=Venue.DESC_MAX_LENGTH,
                             help_text="Description:")
     address = forms.CharField(max_length=Venue.ADDRESS_MAX_LENGTH,
-                            help_text="Address:")
+                            help_text="Street Address:")
+    city = forms.CharField(max_length=Venue.ADDRESS_MAX_LENGTH, help_text="City:")
+    postcode = forms.CharField(max_length=Venue.ADDRESS_MAX_LENGTH, help_text="Post Code:")
+    latitude = forms.FloatField(help_text="Latitude:")
+    longitude = forms.FloatField(help_text="Longitude:")
+    banner_picture = forms.ImageField(help_text="Upload an Image:")
     name_slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:

@@ -1,6 +1,8 @@
 from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.core import serializers
+import json
 
 from django.http import HttpResponseRedirect, HttpResponse
 
@@ -75,10 +77,21 @@ def rate(request, venue_name_slug):
     return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit, 'venue':venue})
 
 def home(request):
-    return render(request, 'venyou_app/home.html')
+    event_list = Event.objects.order_by('-date')[:8]
+    venue_list = Venue.objects.order_by('name')[:3]
+
+    context_dict = {}
+    context_dict['events'] = event_list
+    context_dict['venues'] = venue_list
+
+    return render(request, 'venyou_app/home.html', context=context_dict)
 
 def map(request):
-    return render(request, 'venyou_app/map.html')
+    venues_serialized = serializers.serialize("json", Venue.objects.all())
+
+    context_dict = {}
+    context_dict['venues'] = json.loads(venues_serialized)
+    return render(request, 'venyou_app/map.html', context=context_dict)
 
 def user_login(request):
     if request.method == 'POST':

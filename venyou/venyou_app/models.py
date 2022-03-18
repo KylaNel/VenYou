@@ -23,6 +23,8 @@ class Venue(models.Model):
     name = models.CharField(max_length=NAME_MAX_LENGTH, unique=True)
     description = models.CharField(max_length=DESC_MAX_LENGTH)
     address = models.CharField(max_length=ADDRESS_MAX_LENGTH)
+    city = models.CharField(max_length=ADDRESS_MAX_LENGTH, default="Glasgow")
+    postcode = models.CharField(max_length=ADDRESS_MAX_LENGTH, default="")
     latitude = models.FloatField()
     longitude = models.FloatField()
     banner_picture = models.ImageField()

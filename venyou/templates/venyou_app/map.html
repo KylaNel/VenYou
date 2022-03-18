@@ -21,10 +21,19 @@
 </iframe> -->
 
 <script>
+  var venues = {{ venues|safe }};
+  const locations_list = [];
+  for (venue in venues) {
+    var v = venues[venue]["fields"];
+    
+    var obj = {"title":v["name"],"address1":v["address"], "address2":v["city"], "coords":{"lat":v["latitude"],"lng":v["longitude"]}}
+
+    locations_list.push(obj);
+  }
+  
+  
   const CONFIGURATION = {
-    "locations": [
-      {"title":"Sub Club","address1":"22 Jamaica St","address2":"Glasgow G1 4QD, UK","coords":{"lat":55.8578914495086,"lng":-4.257237735581971},"placeId":"ChIJi07Lu55GiEgRrJfQzqZJc9E"}
-    ],
+    "locations": locations_list,
     "mapOptions": {"center":{"lat":38.0,"lng":-100.0},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":false,"zoom":4,"zoomControl":true,"maxZoom":17},
     "mapsApiKey": "AIzaSyD1AJDVgWUGlRPcGTEW1aQ309fM4KmW-u0",
     "capabilities": {"input":true,"autocomplete":true,"directions":true,"distanceMatrix":true,"details":true}
