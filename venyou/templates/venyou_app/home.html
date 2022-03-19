@@ -7,7 +7,7 @@
 
 {% block body_block %}
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    
+    <br>
     <h1 class="page_title">VenYou</h1>
 
     {% if user.is_authenticated %}
@@ -22,16 +22,25 @@
     </div>
     {% endif %}
 
-    <div class="w3-content w3-section" id="slide-box" style="max-width:800px">
-        <!-- {% for venue in venues %}
-            <img class="mySlides" src="{{ venue.banner_picture }}">
-        {% endfor %} -->
-        <img class="mySlides" src="{{ MEDIA_URL }}subclub.jpg">
-        <img class="mySlides" src="{{ MEDIA_URL }}berkeley.jpg">
+    <center>
+    <div class="slideshow">
+        <div class="w3-content w3-section" id="slide-box">
+            <!-- {% for venue in venues %}
+                <img class="mySlides" src="{{ venue.banner_picture }}">
+            {% endfor %} -->
+            <center>
+            <img class="mySlides" src="{{ MEDIA_URL }}subclub.jpg">
+            <img class="mySlides" src="{{ MEDIA_URL }}berkeley.jpg">
+            </center>
+            venue name
+            <br>
+            <a href="{% url 'venyou_app:map' %}" class="w3-button w3-large w3-transparent">Find out more</a>
+        </div>
     </div>
+    </center>
+    
    
-    <!-- <button id="button-hometomap" role="button">Find venues near me</button> -->
-    <a href="{% url 'venyou_app:map' %}" class="w3-button w3-round-xxlarge w3-khaki" id="hometomap-button">Find venues near me</a>   
+    <a href="{% url 'venyou_app:map' %}" class="w3-button w3-round-xxlarge w3-khaki" id="hometomap-button"><b>Find venues near me</b></a>   
 
     <div class="featured-events"></div>
     {% if events %}

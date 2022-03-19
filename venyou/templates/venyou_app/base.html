@@ -14,8 +14,8 @@
 
         <!-- CSS AND JS FOR DJANGO -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <!-- <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script> -->
-        <!-- <script src="{% static 'js/base.js' %}"></script> -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        
         
 
         <!-- CSS AND JS IMPORTS FOR VSCODE TESTING -->
@@ -39,6 +39,9 @@
 
             <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
         </ul>
+
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
+        <script src="{% static 'js/base.js' %}"></script>
     </head>
 
     <body>

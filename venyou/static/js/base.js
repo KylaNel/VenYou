@@ -4,7 +4,7 @@ $("#nav-1 a").on("click", function() {
     $("#nav-1 .slide1").css({ opacity: 1, left: +position.left, width: width });
   });
   
-  $("#nav-1 a").on("mouseover", function() {
+  $("#nav-1 a").mouseover(function() {
     var position = $(this).parent().position();
     var width = $(this).parent().width();
     $("#nav-1 .slide2").css({ 
