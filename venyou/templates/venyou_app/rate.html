@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block body_block %}
+
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/rate.js' %}" ></script>
+
+
     <center>
         <h1>Leave a rating for {{venue.name}}</h1>
         <br/> <br/>
@@ -15,25 +20,34 @@
             <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">Return to {{venue.name}}</a>
         {% else %}
         <div class="content" >
-            <div class="display_left">
-                <div class="list_display_tag" ><h4>Rate these categories:</h4></div>
-                <div class="list_display" >
-                    Stars thing
+            <form name="rate" action="{% url 'venyou_app:rate' venue.name_slug %}" method="POST" onsubmit="return addStarsToForm()">
+                <div class="display_left">
+                    <div class="list_display_tag" ><h4>Rate these categories:</h4></div>
+                    <div class="list_display" >
+                        <div id="star_rating_area"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="display_right" >
-                <div class="list_display_tag"><h4>How was your experience?</h4></div>
-                <div class="list_display" >
-                    
+                <div class="display_right" >
+                    <div class="list_display_tag"><h4>How was your experience?</h4></div>
+                    <div class="list_display" >
+                        {% for field in form.visible_fields %}
+                            {{ field.errors }}
+                            {{ field.help_text }}
+                            {{ field }} <br>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-            <form id="rate" action="" method="POST">
+
+
                 {% csrf_token %}
 
-                {{ form.as_p }}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
 
-                <input type="submit" value="Submit" class="btn btn-secondary" >
-
+                <div class="centered_button_wrapper">
+                    <input class="centered_button" type="submit" value="Submit" class="btn btn-secondary" >
+                </div>
             </form>
         </div>
         {% endif %}

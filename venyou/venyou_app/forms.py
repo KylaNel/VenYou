@@ -19,10 +19,10 @@ class RatingsForm(ModelForm):
             'comment': 'Additional Comment:',
         }
         widgets = {
-            'hygiene_score': forms.TextInput(attrs={'class': 'form-control', 'type' : 'number'  ,'placeholder': 'Rate hygiene score out of 5'}),
-            'vibe_score': forms.TextInput(attrs={'class': 'form-control', 'type': 'number','placeholder': 'Rate the vibe score out of 5'}),
-            'safety_score': forms.TextInput(attrs={'class': 'form-control','type' : 'number', 'placeholder': 'Rate the safety score out of 5'}),
-            'comment': forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Any other comments?'}),
+            'hygiene_score': forms.HiddenInput(attrs={'class': 'form-control','placeholder': 'Rate hygiene score out of 5'}),
+            'vibe_score': forms.HiddenInput(attrs={'class': 'form-control','placeholder': 'Rate the vibe score out of 5'}),
+            'safety_score': forms.HiddenInput(attrs={'class': 'form-control','placeholder': 'Rate the safety score out of 5'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Any other comments?'}),
         }
 
 

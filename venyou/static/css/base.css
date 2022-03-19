@@ -135,6 +135,7 @@
 
 .centered_button_wrapper{
   text-align: center;
+  clear: both;
 }
 
 .centered_button{
@@ -541,4 +542,11 @@
   display: none;
   width: 100%;
   height: 100%;
+}
+
+
+.rating div{
+  width: fit-content;
+  padding-right: 5px;
+  display: inline-block;
 }
