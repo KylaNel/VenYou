@@ -77,7 +77,7 @@ def rate(request, venue_name_slug):
     return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit, 'venue':venue})
 
 def home(request):
-    event_list = Event.objects.order_by('-date')[:8]
+    event_list = Event.objects.order_by('date')[:8]
     venue_list = Venue.objects.order_by('name')[:3]
 
     context_dict = {}
