@@ -15,6 +15,7 @@ urlpatterns = [
     path('myaccount/', views.myaccount, name='myaccount'),
     path('add_venue/', views.add_venue, name='add_venue'),
     path('create_account/', views.create_account, name='create_account'),
+    path('venue/', views.venue_browse, name='venue_browse'),
     path('venue/<slug:venue_name_slug>/', views.venue_page, name='venue_page'),
     path('venue/<slug:venue_name_slug>/rate/', views.rate, name='rate'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

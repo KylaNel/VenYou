@@ -8,12 +8,16 @@
     {% if venue %}
 
         <div class="content">
-            <img class="banner_image" alt="Image of venue" src=""/>
+            {% if venue.banner_picture %}
+                <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
+            {% else %}
+            No piccy
+            {% endif %}
 
             <h1 class="page_title"> {{ venue.name }}</h1>
 
-            <p class="page_title"> {{ venue.description }}</p>
-            <p class="page_title"> {{ venue.address }}</p>
+            <p class=""> {{ venue.description }}</p>
+            <p class=""> {{ venue.address }}</p>
 
             <div id="venue_rating_bar">
                 {% if sr.has_been_rated %}

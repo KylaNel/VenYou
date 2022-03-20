@@ -207,3 +207,8 @@ def venue_page(request, venue_name_slug):
         context_dict['venue'] = None
 
     return render(request, 'venyou_app/venue.html', context_dict)
+
+
+def venue_browse(request):
+    context_dict = {'venues':Venue.objects.all()}
+    return render(request, 'venyou_app/venue_browse.html', context_dict)
