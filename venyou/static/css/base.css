@@ -521,30 +521,38 @@
   font: 1.1em 'Roboto';
 }
 
-.featured-events {
-  display: inline-block;
-  border: 1px solid rgb(1, 59, 63);
-  display: block;
-  margin: 50px;
-  background-color: rgba(240, 230, 140, 0.767);
-  border-radius: 1em;
-  font-size: large;
-  left: 10px;
+#event-list {
+  margin: 20px;
 }
 
-.featured-events .event {
-  display: inline-block;
-  border-radius: 2em;
-  background-color: #57aca19f;
-  padding: 100px;
-  margin: 50px;
-  display: block;
-  border: 1px solid rgb(1, 59, 63);
+#event-list ul {
+  list-style-type: none;
+  width: 500px;
 }
 
-.featured-events .event #getTickets {
-  position: relative;
-  float: right;
+#event-list h3 {
+  font: bold 20px/1.5 'Roboto';
+}
+
+#event-list li img {
+  float: left;
+  margin: 0 15px 0 0;
+  max-width: 100px;
+  max-height: 50px;
+}
+
+#event-list li p {
+  font: 200 20px/1.5 Georgia;
+}
+
+#event-list li {
+  padding: 10px;
+  overflow: auto;
+}
+
+#event-list li:hover {
+  background: #eee;
+  cursor: pointer;
 }
 
 .slideshow {

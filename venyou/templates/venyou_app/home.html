@@ -37,22 +37,32 @@
    
     <a href="{% url 'venyou_app:map' %}" class="w3-button w3-round-xxlarge w3-khaki" id="hometomap-button"><b>Find venues near me</b></a>   
 
-    <ul class="featured-events"></div>
+    
+    <div id="event-list">
     {% if events %}
-    <center>
         <h2>Featured Events</h2>
-    </center>
         {% for event in events %}
-            <li class="event">
+        <ul>
+            <!-- <li class="event">
                 {{ event.name }} at <a href="{ event.ticket_link }">{{event.venue}}</a> on {{event.date}}  
                 <a href="{{ event.ticket_link }}" class="w3-button w3-small w3-white" id="getTickets">Get tickets</a>
                 <br>
                 {{event.description}}
+            </li> -->
+            <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
+            <li>
+                <!-- <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg"> -->
+                <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg">
+                <h3>{{event.name}}</h3>
+                <p>{{event.description}}</p>
+                <a href="{{ event.ticket_link }}" class="w3-button w3-small w3-white" id="getTickets">Get tickets</a>
             </li>
+            </a>
+        </ul>
         {% endfor %}
     {% else %}
     {% endif %}
-    </ul>
+    </div>
 
     <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
