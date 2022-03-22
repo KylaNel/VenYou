@@ -7,8 +7,7 @@
 
 {% block body_block %}
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <br>
-    <h1 class="page_title">VenYou</h1>
+    <!-- <h1 class="page_title">VenYou</h1> -->
 
     {% if user.is_authenticated %}
     <div>
@@ -40,18 +39,11 @@
     
     <div id="event-list">
     {% if events %}
-        <h2>Featured Events</h2>
+        <h1>Featured Events</h1>
         {% for event in events %}
         <ul>
-            <!-- <li class="event">
-                {{ event.name }} at <a href="{ event.ticket_link }">{{event.venue}}</a> on {{event.date}}  
-                <a href="{{ event.ticket_link }}" class="w3-button w3-small w3-white" id="getTickets">Get tickets</a>
-                <br>
-                {{event.description}}
-            </li> -->
             <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
             <li>
-                <!-- <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg"> -->
                 <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg">
                 <h3>{{event.name}}</h3>
                 <p>{{event.description}}</p>
