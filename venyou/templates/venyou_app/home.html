@@ -23,6 +23,10 @@
 
     <center>
     <div class="slideshow">
+        <h1 id="venue-heading"><b>Featured Venues</b></h1>
+        <br>
+        <br>
+        <hr>
         <div class="w3-content w3-section" id="slide-box">
             {% for venue in venues %}
             <a class="slideHeading">{{venue.name}}</a>
@@ -39,13 +43,14 @@
     
     <div id="event-list">
     {% if events %}
-        <h1>Featured Events</h1>
+        <h1><b>Featured Events</b></h1>
+        <hr>
         {% for event in events %}
         <ul>
             <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
             <li>
                 <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg">
-                <h3>{{event.name}}</h3>
+                <h3>{{event.name}} at {{event.venue}}</h3>
                 <p>Date: {{event.date}}</p>
                 <p>{{event.description}}</p>
                 <a href="{{ event.ticket_link }}" class="w3-button w3-small w3-white" id="getTickets">Get tickets</a>

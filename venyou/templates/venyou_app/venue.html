@@ -9,7 +9,9 @@
 
         <div class="content">
             {% if venue.banner_picture %}
+            <center>
                 <img class="banner_image" alt="Image of venue" src="{{MEDIA_URL}}{{venue.name_slug}}.jpg"/>
+            </center>
             {% else %}
             No piccy
             {% endif %}

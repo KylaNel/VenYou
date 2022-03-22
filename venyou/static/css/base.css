@@ -184,7 +184,9 @@
 }
 
 .banner_image{
-  width: 100%;
+  /* width: 100%; */
+  max-height: 600px;
+  height: 100%;
 }
 
 #venue_icon_bar{
@@ -543,18 +545,19 @@
 
 #event-list ul {
   list-style-type: none;
-  width: 500px;
+  width: 1820px;
 }
 
 #event-list h3 {
+  margin-left: 10px;
   font: bold 20px 'Open Sans';
 }
 
 #event-list li img {
   float: left;
   margin: 0 15px 0 0;
-  max-width: 100px;
-  max-height: 50px;
+  max-width: 150px;
+  max-height: 100px;
 }
 
 #event-list li p {
@@ -573,12 +576,18 @@
 
 .slideshow {
   width: 1600px;
-  height: 685px;
+  height: 750px;
   background-color: rgba(69, 151, 126, 0.082);
   padding: 5px;
 }
-#slide-box {
-  top: 10px;
+#venue-heading {
+  margin-left: 5px;
+  float: left;
+}
+.slideshow #slide-box {
+  position: relative;
+  display: block;
+  margin-top: 1000px;
   max-width: 70%;
   max-height: 600px;
   /* padding: 10px; */
