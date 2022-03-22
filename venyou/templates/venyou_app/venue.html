@@ -9,7 +9,7 @@
 
         <div class="content">
             {% if venue.banner_picture %}
-                <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
+                <img class="banner_image" alt="Image of venue" src="{{MEDIA_URL}}{{venue.name_slug}}.jpg"/>
             {% else %}
             No piccy
             {% endif %}

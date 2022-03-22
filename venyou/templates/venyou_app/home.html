@@ -25,16 +25,11 @@
     <center>
     <div class="slideshow">
         <div class="w3-content w3-section" id="slide-box">
-            <!-- {% for venue in venues %}
-                <img class="mySlides" src="{{ venue.banner_picture }}">
-            {% endfor %} -->
-            <center>
-            <img class="mySlides" src="{{ MEDIA_URL }}subclub.jpg">
-            <img class="mySlides" src="{{ MEDIA_URL }}berkeley.jpg">
-            </center>
-            venue name
-            <br>
-            <a href="{% url 'venyou_app:map' %}" class="w3-button w3-large w3-transparent">Find out more</a>
+            {% for venue in venues %}
+            <a class="slideHeading">{{venue.name}}</a>
+            <img class="mySlides" src="{{MEDIA_URL}}{{venue.name_slug}}.jpg">              
+            <a href="{% url 'venyou_app:venue_page' venue.name_slug %}" class="w3-button w3-white w3-border-red w3-large" id="find">See this venue</a>
+            {% endfor %}
         </div>
     </div>
     </center>
@@ -42,18 +37,22 @@
    
     <a href="{% url 'venyou_app:map' %}" class="w3-button w3-round-xxlarge w3-khaki" id="hometomap-button"><b>Find venues near me</b></a>   
 
-    <div class="featured-events"></div>
+    <ul class="featured-events"></div>
     {% if events %}
     <center>
         <h2>Featured Events</h2>
     </center>
         {% for event in events %}
-            <li class="event"><a href="{ event.ticket_link }">{{ event.name }}</a></li>
+            <li class="event">
+                {{ event.name }} at <a href="{ event.ticket_link }">{{event.venue}}</a> on {{event.date}}  
+                <a href="{{ event.ticket_link }}" class="w3-button w3-small w3-white" id="getTickets">Get tickets</a>
+                <br>
+                {{event.description}}
+            </li>
         {% endfor %}
-    </div>
     {% else %}
-        No events yet
     {% endif %}
+    </ul>
 
     <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

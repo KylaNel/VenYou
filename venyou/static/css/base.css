@@ -522,37 +522,61 @@
 }
 
 .featured-events {
+  display: inline-block;
   border: 1px solid rgb(1, 59, 63);
   display: block;
   margin: 50px;
   background-color: rgba(240, 230, 140, 0.767);
   border-radius: 1em;
+  font-size: large;
+  left: 10px;
 }
 
 .featured-events .event {
+  display: inline-block;
   border-radius: 2em;
   background-color: #57aca19f;
-  padding: 5px;
-  margin: 5px;
+  padding: 100px;
+  margin: 50px;
+  display: block;
+  border: 1px solid rgb(1, 59, 63);
+}
+
+.featured-events .event #getTickets {
+  position: relative;
+  float: right;
 }
 
 .slideshow {
   width: 1600px;
-  height: 670px;
+  height: 685px;
   background-color: rgba(69, 151, 126, 0.082);
   padding: 5px;
 }
 #slide-box {
+  top: 10px;
   max-width: 70%;
   max-height: 600px;
   /* padding: 10px; */
   
 }
-.mySlides {
+.slideshow .mySlides {
   display: none;
   height: 100%;
+  max-height: 550px;
   max-width: 1000px;
-  width: 100%;
+  /* width: 100%; */
+}
+
+.slideshow .slideHeading {
+  display: none;
+  font-size: x-large;
+}
+
+#find {
+  bottom: 10px;
+  width: 170px;
+  border: black;
 }
 
 .rating div{
