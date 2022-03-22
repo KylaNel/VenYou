@@ -46,6 +46,7 @@
             <li>
                 <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg">
                 <h3>{{event.name}}</h3>
+                <p>Date: {{event.date}}</p>
                 <p>{{event.description}}</p>
                 <a href="{{ event.ticket_link }}" class="w3-button w3-small w3-white" id="getTickets">Get tickets</a>
             </li>
