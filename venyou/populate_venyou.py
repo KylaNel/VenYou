@@ -1,12 +1,9 @@
-import os, datetime
+import os, pytz, datetime
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'venyou.settings')
 import django
 django.setup()
 from venyou_app.models import UserProfile, Venue, Event, Rating
 from django.contrib.auth.models import User
-
-
-
 
 
 
@@ -61,7 +58,7 @@ def populate():
         'longitude':-4.25756}
     ]
 
-    admin_venues = [
+    admindude_venues = [
         {'name':'Administrator\'s House',
         'description':'This is where the admin is done.',
         'address':'University Of Glasgow, Hillhead St',
@@ -91,8 +88,13 @@ def populate():
         'is_owner':True,
         'venues':iains_venues},
 
+        {'username':'admindude',
+        'password':'imnottherealadmin',
+        'is_owner': True,
+        'venues':admindude_venues},
+
         # Non owner accounts
-        {'username':'bob_standar',
+        {'username':'bob_standard',
         'password':'5555',
         'is_owner':False},
 
@@ -105,35 +107,8 @@ def populate():
         'is_owner':False},
     ]
 
-    #### CREATE SUPERUSER ACCOUNT ####
+    #### CREATE USERS AND VENUES ####
 
-
-    
-    #### RANDOM RATING DEFINITIONS ####
-
-    ratings = [
-        {'hygiene_score': '4',
-        'vibe_score': '9.5',
-        'safety_score': '10',
-        'comment': 'It is very safe, well maintained, and has a hygiene score of 4/5',
-        'date': datetime.datetime(2022, 3, 10, 14, 5, 32),
-        'writer': 3, # Index in the account array
-        'about': 2}
-
-    ]
-
-
-    #### RANDOM EVENT DEFINITIONS ####
-    
-    event= [
-    {'name': 'Halloween',
-    'description':'Fancy a night out on the scariest night of the year? We are offering free entry before 11 pm and 1.50 pound shots',
-    'date':'31/10/2022',
-    'organizer': 'Simon',
-    'venue': 'Garage',
-    'ticket_link': 'https://garageglasgow.co.uk/gig-listings/'
-            }]
-    
     created_users = []
     created_venues = []
 
@@ -145,12 +120,60 @@ def populate():
                 new_venue = add_venue(venue['name'], venue['description'], venue['address'], venue['city'],
                           venue['postcode'], venue['latitude'], venue['longitude'], new_user)
                 created_venues.append(new_venue)
-        
+
+    
+
+    #### RATING DEFINITIONS ####
+
+    ratings = [
+        {'hygiene_score': 4,
+        'vibe_score': 5,
+        'safety_score': 3,
+        'comment': 'It is very safe, well maintained, and has a hygiene score of 4/5',
+        'date': datetime.datetime(2022, 3, 10, 14, 5, 32, tzinfo=pytz.UTC),
+        'writer': next(filter(lambda x: x.user.username=='leen', created_users)), # Just searches for the user with a given username
+        'about': next(filter(lambda x: x.name=='Garage', created_venues))},
+
+        {'hygiene_score': 1,
+        'vibe_score': 1,
+        'safety_score': 1,
+        'comment': 'Just creepy folk, did not enjoy. :((',
+        'date': datetime.datetime(2022, 3, 23, 18, 25, 00, tzinfo=pytz.UTC),
+        'writer': next(filter(lambda x: x.user.username=='iain', created_users)),
+        'about': next(filter(lambda x: x.name=='Firewater', created_venues))},
+
+        {'hygiene_score': 3,
+        'vibe_score': 3,
+        'safety_score': 3,
+        'comment': 'Generic comment goes here!!',
+        'date': datetime.datetime(2022, 3, 10, 14, 5, 32, tzinfo=pytz.UTC),
+        'writer': next(filter(lambda x: x.user.username=='admindude', created_users)),
+        'about': next(filter(lambda x: x.name=='Subclub', created_venues))}
+    ]
+
+
+    #### RANDOM EVENT DEFINITIONS ####
+    
+    events = [
+        {'name': 'Halloween',
+        'description':'Fancy a night out on the scariest night of the year? We are offering free entry before 11 pm and 1.50 pound shots',
+        'date': datetime.datetime(2022, 10, 31, 20, 0, 0, tzinfo=pytz.UTC),
+        'organiser': next(filter(lambda x: x.user.username=='Simon', created_users)),
+        'venue': next(filter(lambda x: x.name=='Garage', created_venues)),
+        'ticket_link': 'https://garageglasgow.co.uk/gig-listings/'},
+
+
+    ]
+    
+    #### CREATE RATINGS AND EVENTS ####
+
     for rating in ratings:
-        writer = created_users[rating['writer']]
-        about = created_venues[rating['about']]
-        #new_rating = add_rating(rating['hygiene_score'], rating['vibe_score'], rating['safety_score'], 
-        #                        rating['comment'], rating['date'], writer, about)
+        add_rating(rating['hygiene_score'], rating['vibe_score'], rating['safety_score'], 
+                    rating['comment'], rating['date'], rating['writer'], rating['about'])
+
+    for event in events:
+        add_event(event['name'], event['description'], event['date'], event['organiser'],
+                    event['venue'], event['ticket_link'])
     
         
 
@@ -167,10 +190,10 @@ def add_venue(name, description, address, city, postcode, latitude, longitude, o
                                         address= address, city=city, postcode=postcode,
                                         owner=owner, latitude=latitude, longitude=longitude)[0]
     venue.save()
-    return Venue
+    return venue
 
-def add_event(name, description, date, organizer, venue, ticket_link):
-    event = Event.objects.get_or_create(name= name, description= description, date= date, organizer= organizer, venue= venue, ticket_link= ticket_link)[0]
+def add_event(name, description, date, organiser, venue, ticket_link):
+    event = Event.objects.get_or_create(name= name, description= description, date= date, organiser=organiser, venue= venue, ticket_link= ticket_link)[0]
     event.save()
     return event
 
