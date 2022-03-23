@@ -12,9 +12,13 @@
         <!-- ICON LIBRARY -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
         <!-- CSS AND JS FOR DJANGO -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        
         
         
 
@@ -27,7 +31,12 @@
         <ul id="nav-1"> 
             <li class="slide1"></li>         
             <li class="slide2"></li>
+            
             <li><button type="button"><a href="{% url 'venyou_app:home' %}" class="fa fa-home fa-4x"></a></button></li>
+
+            <li><a class="title">VenYou</a></li>
+
+            <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
 
             <!-- SEARCH BAR -->
             <li class="search-container">
@@ -36,8 +45,6 @@
                   <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </li>
-
-            <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
         </ul>
 
         <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
