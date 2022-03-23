@@ -30,7 +30,7 @@
         <div class="w3-content w3-section" id="slide-box">
             {% for venue in venues %}
             <a class="slideHeading">{{venue.name}}</a>
-            <img class="mySlides" src="{{MEDIA_URL}}{{venue.name_slug}}.jpg">              
+            <img class="mySlides" src="{{ venue.banner_picture.url }}">              
             <a href="{% url 'venyou_app:venue_page' venue.name_slug %}" class="w3-button w3-white w3-border-red w3-large" id="find">See this venue</a>
             {% endfor %}
         </div>
@@ -49,7 +49,7 @@
         <ul>
             <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
             <li>
-                <img src="{{MEDIA_URL}}{{event.venue.name_slug}}.jpg">
+                <img src="{{ venue.banner_picture.url }}">
                 <h3>{{event.name}} at {{event.venue}}</h3>
                 <p>Date: {{event.date}}</p>
                 <p>{{event.description}}</p>

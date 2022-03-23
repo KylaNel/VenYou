@@ -21,7 +21,8 @@ def populate():
         'city':'Glasgow',
         'postcode':'G2 3LW',
         'latitude':55.86624,
-        'longitude':-4.26830}
+        'longitude':-4.26830,
+        'banner_pic':'garage.jpg'}
     ]
 
     leens_venues = [
@@ -31,7 +32,8 @@ def populate():
         'city':'Glagsow',
         'postcode':'G2 3HW',
         'latitude':55.86572,
-        'longitude':-4.26560},
+        'longitude':-4.26560,
+        'banner_pic':'firewater.jpg'},
 
         {'name':'Broadcast',
         'description':'Live music venue.',
@@ -39,7 +41,8 @@ def populate():
         'city':'Glagsow',
         'postcode':'G2 3LG',
         'latitude':55.86610,
-        'longitude':-4.26907}
+        'longitude':-4.26907,
+        'banner_pic':'broadcast.png'}
     ]
 
     iains_venues = [
@@ -49,7 +52,8 @@ def populate():
         'city':'Glasgow',
         'postcode':'G1 4QD',
         'latitude':55.85798,
-        'longitude':-4.25690},
+        'longitude':-4.25690,
+        'banner_pic':'sub-club.jpg'},
 
         {'name':'Stereo',
         'description':'Performance space on ground floor of impressive building with imaginative vegan cafe/bar above.',
@@ -57,7 +61,8 @@ def populate():
         'city':'Glasgow',
         'postcode':'G2 5AR',
         'latitude':55.86166,
-        'longitude':-4.25756}
+        'longitude':-4.25756,
+        'banner_pic':'stereo.jpg'}
     ]
 
     admindude_venues = [
@@ -67,7 +72,8 @@ def populate():
         'city':'Glasgow',
         'postcode':'G12 8QE',
         'latitude':55.87345,
-        'longitude':-4.28861}
+        'longitude':-4.28861,
+        'banner_pic':'library.jpg'}
     ]
 
 
@@ -127,7 +133,7 @@ def populate():
         if user['is_owner']:
             for venue in user['venues']:
                 new_venue = add_venue(venue['name'], venue['description'], venue['address'], venue['city'],
-                          venue['postcode'], venue['latitude'], venue['longitude'], new_user)
+                          venue['postcode'], venue['latitude'], venue['longitude'], new_user, venue['banner_pic'])
                 created_venues.append(new_venue)
 
     
@@ -197,10 +203,13 @@ def add_user(username, password, is_owner, image_filename):
     userprofile.save()
     return userprofile
 
-def add_venue(name, description, address, city, postcode, latitude, longitude, owner):
+def add_venue(name, description, address, city, postcode, latitude, longitude, owner, banner_pic):
     venue= Venue.objects.get_or_create(name= name, description= description, 
                                         address= address, city=city, postcode=postcode,
                                         owner=owner, latitude=latitude, longitude=longitude)[0]
+    if banner_pic:
+        image_file = File(open(os.path.join(TMP_IMG_DIR, banner_pic),'rb'))
+        venue.banner_picture.save(banner_pic, image_file)
     venue.save()
     return venue
 

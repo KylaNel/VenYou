@@ -78,7 +78,7 @@ def rate(request, venue_name_slug):
 
 def home(request):
     event_list = Event.objects.order_by('date')[:8]
-    venue_list = Venue.objects.order_by('name')[:3]
+    venue_list = Venue.objects.order_by('name')#[:3]
 
     context_dict = {}
     context_dict['events'] = event_list
