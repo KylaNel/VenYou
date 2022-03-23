@@ -4,8 +4,10 @@ import django
 django.setup()
 from venyou_app.models import UserProfile, Venue, Event, Rating
 from django.contrib.auth.models import User
+from django.core.files import File
+from venyou.settings import BASE_DIR
 
-
+TMP_IMG_DIR = os.path.join(BASE_DIR, 'population_imgs')
 
 def populate():
 
@@ -76,35 +78,42 @@ def populate():
         {'username': 'leen',
         'password': 'password',
         'is_owner': True,
-        'venues': leens_venues},
+        'venues': leens_venues,
+        'picture': None},
 
         {'username': 'Simon',
         'password': 'password',
         'is_owner': True,
-        'venues':simons_venues},
+        'venues':simons_venues,
+        'picture': None},
 
         {'username':'iain',
         'password':'3w2w9w',
         'is_owner':True,
-        'venues':iains_venues},
+        'venues':iains_venues,
+        'picture': 'test_profile.jpg'},
 
         {'username':'admindude',
         'password':'imnottherealadmin',
         'is_owner': True,
-        'venues':admindude_venues},
+        'venues':admindude_venues,
+        'picture': None},
 
         # Non owner accounts
         {'username':'bob_standard',
         'password':'5555',
-        'is_owner':False},
+        'is_owner':False,
+        'picture': None},
 
         {'username':'jill',
         'password':'8888',
-        'is_owner':False},
+        'is_owner':False,
+        'picture': None},
 
         {'username':'hacker',
         'password':'1234',
-        'is_owner':False},
+        'is_owner':False,
+        'picture': None},
     ]
 
     #### CREATE USERS AND VENUES ####
@@ -113,7 +122,7 @@ def populate():
     created_venues = []
 
     for user in users:
-        new_user = add_user(user['username'], user['password'], user['is_owner'])
+        new_user = add_user(user['username'], user['password'], user['is_owner'], user['picture'])
         created_users.append(new_user)
         if user['is_owner']:
             for venue in user['venues']:
@@ -178,10 +187,13 @@ def populate():
         
 
 
-def add_user(username, password, is_owner):
-    user= User.objects.get_or_create(username= username, password= password)[0]
+def add_user(username, password, is_owner, image_filename):
+    user= User.objects.create_user(username=username, password=password)
     user.save()
-    userprofile= UserProfile.objects.get_or_create(user= user, is_owner= is_owner)[0]
+    userprofile= UserProfile.objects.get_or_create(user= user, is_owner=is_owner)[0]
+    if image_filename:
+        image_file = File(open(os.path.join(TMP_IMG_DIR, image_filename),'rb'))
+        userprofile.picture.save(image_filename, image_file)
     userprofile.save()
     return userprofile
 
