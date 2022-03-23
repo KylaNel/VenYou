@@ -1,4 +1,5 @@
 from multiprocessing import context
+from urllib.parse import urldefrag
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.core import serializers
@@ -51,13 +52,22 @@ class StarRating:
         print(no_full_stars, no_half_stars, no_empty_stars)
 
         return range(no_full_stars), range(no_half_stars), range(no_empty_stars)
+
+
+def get_user_profile_or_none(request):
+    try:
+        user = User.objects.get(username=request.user.username)
+        user_profile = UserProfile.objects.get(user=user)
+    except (User.DoesNotExist, UserProfile.DoesNotExist) as e:
+        return (None, None)
+    return user, user_profile
         
 
 @login_required
 def rate(request, venue_name_slug):
     venue = get_object_or_404(Venue, name_slug=venue_name_slug)
-    user = User.objects.get(username=request.user.username)
-    user_profile = UserProfile.objects.get(user=user)
+
+    user, user_profile = get_user_profile_or_none(request)
 
     submit = False
     if  request.method == "POST":
@@ -77,23 +87,33 @@ def rate(request, venue_name_slug):
     return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit, 'venue':venue})
 
 def home(request):
+
+    user, user_profile = get_user_profile_or_none(request)
+
     event_list = Event.objects.order_by('date')[:8]
     venue_list = Venue.objects.order_by('name')#[:3]
 
     context_dict = {}
     context_dict['events'] = event_list
     context_dict['venues'] = venue_list
+    context_dict['user_profile'] = user_profile
 
     return render(request, 'venyou_app/home.html', context=context_dict)
 
 def map(request):
+
+    user, user_profile = get_user_profile_or_none(request)
+
     venues_serialized = serializers.serialize("json", Venue.objects.all())
 
     context_dict = {}
     context_dict['venues'] = json.loads(venues_serialized)
+    context_dict['user_profile'] = user_profile
     return render(request, 'venyou_app/map.html', context=context_dict)
 
 def user_login(request):
+    user, user_profile = get_user_profile_or_none(request)
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -105,18 +125,16 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('venyou_app:home'))
             else:
-                return render(request, 'venyou_app/login.html', {'error':'Your account is disabled.'})
+                return render(request, 'venyou_app/login.html', {'error':'Your account is disabled.', 'user_profile':user_profile})
         else:
             print(f"Invalid login details: {username}, {password}")
-            return render(request, 'venyou_app/login.html', {'error':'Invalid login details supplied.'})
+            return render(request, 'venyou_app/login.html', {'error':'Invalid login details supplied.', 'user_profile':user_profile})
     else:
-        return render(request, 'venyou_app/login.html')
+        return render(request, 'venyou_app/login.html', {'user_profile':user_profile})
 
 @login_required
 def myaccount(request):
-
-    user = User.objects.get(username=request.user.username)
-    user_profile = UserProfile.objects.get(user=user)
+    user, user_profile = get_user_profile_or_none(request)
 
     ratings = Rating.objects.filter(writer=user_profile)
     venues = Venue.objects.filter(owner=user_profile)
@@ -133,8 +151,8 @@ def user_logout(request):
 def add_venue(request):
     form = VenueForm()
 
-    user = User.objects.get(username=request.user.username)
-    user_profile = UserProfile.objects.get(user=user)
+    user, user_profile = get_user_profile_or_none(request)
+
     if user_profile and user_profile.is_owner:
 
         if request.method == 'POST':
@@ -151,7 +169,7 @@ def add_venue(request):
         return redirect(reverse('venyou_app:myaccount'))
 
 def create_account(request):
-
+    user, user_profile = get_user_profile_or_none(request)
 
     already_created = False
 
@@ -181,15 +199,17 @@ def create_account(request):
     
     context_dict = {'user_form':user_form,
                     'user_profile_form':user_profile_form,
-                    'created':already_created}
+                    'created':already_created,
+                    'user_profile':user_profile}
     return render(request, 'venyou_app/create_account.html',  context_dict)
 
 
 def venue_page(request, venue_name_slug):
 
-    
+    user, user_profile = get_user_profile_or_none(request)
 
     context_dict = {}
+    context_dict['user_profile'] = user_profile
 
     try:
         venue = Venue.objects.get(name_slug=venue_name_slug)
@@ -210,5 +230,7 @@ def venue_page(request, venue_name_slug):
 
 
 def venue_browse(request):
+    user, user_profile = get_user_profile_or_none(request)
     context_dict = {'venues':Venue.objects.all()}
+    context_dict['user_profile'] = user_profile
     return render(request, 'venyou_app/venue_browse.html', context_dict)

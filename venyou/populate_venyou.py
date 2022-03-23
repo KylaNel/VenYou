@@ -177,7 +177,12 @@ def populate():
         'venue': next(filter(lambda x: x.name=='Garage', created_venues)),
         'ticket_link': 'https://garageglasgow.co.uk/gig-listings/'},
 
-
+        {'name': 'St Paddys',
+        'description':'Come celebrate the Irish National holiday from 3pm onwards, with £3 guinness pints',
+        'date': datetime.datetime(2023, 3, 17, 15, 0, 0, tzinfo=pytz.UTC),
+        'organiser': next(filter(lambda x: x.user.username=='iain', created_users)),
+        'venue':next(filter(lambda x: x.name=='Firewater', created_venues)),
+        'ticket_link':'https://www.facebook.com/firewaterglasgowofficial/'},
     ]
     
     #### CREATE RATINGS AND EVENTS ####

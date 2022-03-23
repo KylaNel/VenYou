@@ -29,14 +29,34 @@
         <script src="base.js"></script> -->
 
         <ul id="nav-1"> 
+            <!--
             <li class="slide1"></li>         
-            <li class="slide2"></li>
+            <li class="slide2"></li>-->
             
             <li><button type="button"><a href="{% url 'venyou_app:home' %}" class="fa fa-home fa-4x"></a></button></li>
 
             <li><a class="title">VenYou</a></li>
 
-            <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
+
+            {% if user.is_authenticated %}
+                <div id="login_box">
+                    Logged in as {{ user.username }} <br>
+                    <a href="{% url 'venyou_app:logout' %}">Logout</a>
+                </div>
+                {% if user_profile.picture %}
+                    <li id="prof"><a href="{% url 'venyou_app:myaccount' %}" ><img id="profile_pic" src="{{ user_profile.picture.url }}" /></a></li>
+                {% else %}
+                <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
+                {% endif %}
+            {% else %}
+                <div id="login_box">
+                    <a href="{% url 'venyou_app:login' %}">Login</a><br>
+                    Or
+                    <a href="{% url 'venyou_app:create_account' %}">Create an Account</a>
+                </div>
+                <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
+            {% endif %}
+            
 
             <!-- SEARCH BAR -->
             <li class="search-container">
@@ -45,6 +65,8 @@
                   <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </li>
+
+    
         </ul>
 
         <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>

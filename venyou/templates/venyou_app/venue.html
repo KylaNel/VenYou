@@ -10,7 +10,7 @@
         <div class="content">
             {% if venue.banner_picture %}
             <center>
-                <img class="banner_image" alt="Image of venue" src="{{MEDIA_URL}}{{venue.name_slug}}.jpg"/>
+                <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
             </center>
             {% else %}
             No piccy
@@ -18,8 +18,8 @@
 
             <h1 class="page_title"> {{ venue.name }}</h1>
 
-            <p class=""> {{ venue.description }}</p>
-            <p class=""> {{ venue.address }}</p>
+            <p class="venue_description_stuff"> {{ venue.description }}</p>
+            <p class="venue_description_stuff"> {{ venue.address }}, {{ venue.city }}, {{ venue.postcode }}</p>
 
             <div id="venue_rating_bar">
                 {% if sr.has_been_rated %}
@@ -70,7 +70,7 @@
             </div>
 
             <div id="venue_icon_bar">
-                <a class="fa fa-external-link fa-4x" href="#"></a>
+                <!-- <a class="fa fa-external-link fa-4x" href="#"></a> -->
                 <a class="fa fa-map-marker fa-4x" href="{% url 'venyou_app:map' %}"></a>
             </div>
 

@@ -7,15 +7,10 @@
 
 {% block body_block %}
     <h1 class="page_title">Welcome, {{ user.username }}</h1>
-
-    <h1><a href="{% url 'venyou_app:logout' %}">Log Out</a></h1>
     <div>
         {% if user_profile.is_owner %}
         
         <div class="content" >
-            {% if user_profile.picture %}
-                <img src="{{ user_profile.picture.url }}" />
-            {% endif %}
             
             <div class="list_display_tag"><h4>Your venues:</h4></div>
             <div class="list_display">
@@ -45,7 +40,7 @@
                 <ul>
                     {% for el in ratings %}
                         <div class="rating_listing">
-                            <img alt="Rating listing" />
+                            <img alt="Rating listing" src="{{ el.about.banner_picture.url }}"/>
                             <h3>{{ el.about.name }}</h3>
                             <p>{{ el.comment }}</p>
                             <p>

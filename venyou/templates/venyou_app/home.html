@@ -9,18 +9,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- <h1 class="page_title">VenYou</h1> -->
 
-    {% if user.is_authenticated %}
-    <div>
-        <a href="{% url 'venyou_app:logout' %}">Logout</a>
-    </div>
-    {% else %}
-    <div>
-        <a href="{% url 'venyou_app:login' %}">Login</a>
-        Or
-        <a href="{% url 'venyou_app:create_account' %}">Create an Account</a>
-    </div>
-    {% endif %}
-
     <center>
     <div class="slideshow">
         <h1 id="venue-heading"><b>Featured Venues</b></h1>
@@ -29,7 +17,7 @@
         <hr>
         <div class="w3-content w3-section" id="slide-box">
             {% for venue in venues %}
-            <a class="slideHeading">{{venue.name}}</a>
+            <a class="slideHeading" href="{% url 'venyou_app:venue_page' venue.name_slug %}"><h2><b>{{venue.name}}</b></h2></a>
             <img class="mySlides" src="{{ venue.banner_picture.url }}">              
             <a href="{% url 'venyou_app:venue_page' venue.name_slug %}" class="w3-button w3-white w3-border-red w3-large" id="find">See this venue</a>
             {% endfor %}
@@ -46,7 +34,7 @@
         <h1><b>Featured Events</b></h1>
         <hr>
         {% for event in events %}
-        <ul>
+        <ul id="event_list_home">
             <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
             <li>
                 <img src="{{ venue.banner_picture.url }}">
