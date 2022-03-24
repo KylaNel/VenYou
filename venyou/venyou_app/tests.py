@@ -88,7 +88,26 @@ class EventTests(TestCase):
 
         self.assertEquals(self.testEvent.description, 'A testing party: test all night long')
 
-    
+    def test_link_to_venue(self):
+        """
+            Assert that the test event is linked correctly with the venue
+        """
+
+        self.assertEquals(self.testEvent.venue.id, self.testVenue.id)
+
+    def test_link_to_organiser(self):
+        """
+            Assert that the test event is linked correctly with the user profile of the organiser
+        """
+
+        self.assertEquals(self.testEvent.organiser.id, self.testProfile.id)
+
+    def test_datetime_is_set_correctly(self):
+        """
+            Check that the date which was created is now at least the same or in the past.
+        """
+
+        self.assertLessEqual(self.testEvent.date, datetime.now(tz=pytz.UTC))
 
 class RatingMethodTests(TestCase):
 
