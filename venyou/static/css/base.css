@@ -256,9 +256,10 @@
   left: 0;
   width: 22em;
   height: 100%;
+  max-height: 710px;
   top: 0;
   bottom: 0;
-  overflow-y: auto;
+  overflow-y: scroll;
   background: white;
   padding: 0.5em;
   box-sizing: border-box;
