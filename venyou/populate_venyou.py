@@ -144,6 +144,33 @@ def populate():
         {'hygiene_score': 4,
         'vibe_score': 5,
         'safety_score': 3,
+        'comment': "Best club I've been to so far! Amazing vibe, pretty clean, however there was one point where I felt safety could be improved.",
+        'date': datetime.datetime(2022, 3, 23, 18, 25, 00, tzinfo=pytz.UTC),
+        'writer': next(filter(lambda x: x.user.username=='jill', created_users)),
+        'about': next(filter(lambda x: x.name=='Subclub', created_venues))},
+
+
+        {'hygiene_score': 1,
+        'vibe_score': 5,
+        'safety_score': 5,
+        'comment': 'Amazing club!! The floors were very sticky though :(',
+        'date': datetime.datetime(2022, 3, 23, 18, 25, 00, tzinfo=pytz.UTC),
+        'writer': next(filter(lambda x: x.user.username=='jill', created_users)),
+        'about': next(filter(lambda x: x.name=='Garage', created_venues))},
+
+
+        {'hygiene_score': 1,
+        'vibe_score': 1,
+        'safety_score': 1,
+        'comment': 'Decent club, nothing special, just like every other venue on Sauchiehall Street. Only plus is drinks are cheap!',
+        'date': datetime.datetime(2022, 3, 23, 18, 25, 00, tzinfo=pytz.UTC),
+        'writer': next(filter(lambda x: x.user.username=='jill', created_users)),
+        'about': next(filter(lambda x: x.name=='Firewater', created_venues))},
+
+
+        {'hygiene_score': 4,
+        'vibe_score': 5,
+        'safety_score': 3,
         'comment': 'It is very safe, well maintained, and has a hygiene score of 4/5',
         'date': datetime.datetime(2022, 3, 10, 14, 5, 32, tzinfo=pytz.UTC),
         'writer': next(filter(lambda x: x.user.username=='leen', created_users)), # Just searches for the user with a given username
