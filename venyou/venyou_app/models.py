@@ -27,7 +27,7 @@ class Venue(models.Model):
     postcode = models.CharField(max_length=ADDRESS_MAX_LENGTH, default="")
     latitude = models.FloatField()
     longitude = models.FloatField()
-    banner_picture = models.ImageField()
+    banner_picture = models.ImageField(upload_to='', blank=True)
     name_slug = models.SlugField(unique=True)
 
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

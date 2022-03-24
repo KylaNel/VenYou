@@ -160,7 +160,13 @@ def add_venue(request):
             if form.is_valid():
                 venue = form.save(commit=False)
                 venue.owner = user_profile
+
+                
+                if 'banner_picture' in request.FILES:
+                    venue.banner_picture = request.FILES['banner_picture']
+
                 venue.save()
+
                 return redirect(reverse('venyou_app:myaccount'))
         
         context_dict = {'user_profile':user_profile, 'form':form}
