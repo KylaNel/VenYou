@@ -1,6 +1,9 @@
-from datetime import datetime, tzinfo
+from datetime import datetime
+from urllib import response
 import pytz
 from django.test import TestCase
+from django.urls import reverse
+from django.contrib.auth import login
 from venyou_app.models import UserProfile, Rating, Venue, Event
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -8,7 +11,7 @@ from django.template.defaultfilters import slugify
 class UserProfileTests(TestCase):
 
     def setUp(self):
-        self.testUser = User.objects.get_or_create(username='testuser', password='password1234')[0]
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
         self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
 
     def test_username_correct(self):
@@ -35,7 +38,7 @@ class UserProfileTests(TestCase):
 class VenueTests(TestCase):
     
     def setUp(self):
-        self.testUser = User.objects.get_or_create(username='testuser', password='password1234')[0]
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
         self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
         self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
                         address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
@@ -72,7 +75,7 @@ class VenueTests(TestCase):
 class EventTests(TestCase):
     
     def setUp(self):
-        self.testUser = User.objects.get_or_create(username='testuser', password='password1234')[0]
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
         self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
         self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
                         address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
@@ -88,12 +91,31 @@ class EventTests(TestCase):
 
         self.assertEquals(self.testEvent.description, 'A testing party: test all night long')
 
-    
+    def test_link_to_venue(self):
+        """
+            Assert that the test event is linked correctly with the venue
+        """
+
+        self.assertEquals(self.testEvent.venue.id, self.testVenue.id)
+
+    def test_link_to_organiser(self):
+        """
+            Assert that the test event is linked correctly with the user profile of the organiser
+        """
+
+        self.assertEquals(self.testEvent.organiser.id, self.testProfile.id)
+
+    def test_datetime_is_set_correctly(self):
+        """
+            Check that the date which was created is now at least the same or in the past.
+        """
+
+        self.assertLessEqual(self.testEvent.date, datetime.now(tz=pytz.UTC))
 
 class RatingMethodTests(TestCase):
 
     def setUp(self):
-        self.testUser = User.objects.get_or_create(username='testuser', password='password1234')[0]
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
         self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
         self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
                         address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
@@ -141,3 +163,84 @@ class RatingMethodTests(TestCase):
         """
 
         self.assertEquals(self.testRating.about.name, 'test venue')
+
+
+class HomeViewTests(TestCase):
+
+    def test_home_with_no_venues(self):
+        """
+            Test the home page with no venues.
+        """
+
+        response = self.client.get(reverse('venyou_app:home'))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, 'There are no venues yet.')
+        self.assertQuerysetEqual(response.context['venues'], [])
+
+    def test_shows_venue_name(self):
+        """
+            Test that the home page shows the venue name.
+        """
+
+        # Create a venue
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
+        self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
+        self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
+                        address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
+                        latitude=-3.234343, longitude=10.000023, owner=self.testProfile)
+
+
+        response = self.client.get(reverse('venyou_app:home'))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, 'test venue')
+
+    def test_shows_event(self):
+        """
+            Create an event and assert that the home page shows it
+        """
+
+        # Create an event
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
+        self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
+        self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
+                        address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
+                        latitude=-3.234343, longitude=10.000023, owner=self.testProfile)
+
+        self.testEvent = Event.objects.create(name='Test Event', description='A testing party: test all night long',
+                        date=datetime.now(tz=pytz.UTC), venue=self.testVenue, organiser=self.testProfile,
+                        ticket_link='www.test.com')
+
+        response = self.client.get(reverse('venyou_app:home'))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, 'Test Event at test venue')
+
+
+class AccountViewTest(TestCase):
+
+    def test_not_logged_in_redirect(self):
+        """
+            Test that when not logged in the user gets redirected to the login page
+        """
+        response = self.client.get(reverse('venyou_app:myaccount'))
+
+        self.assertEquals(response.status_code, 302)
+
+    def test_user_logged_in(self):
+        """
+            Log in a user and then check the my account page displays correctly
+        """
+
+        # Create a user
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
+        self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
+
+        self.client.login(username='testuser', password='password1234')
+
+        response = self.client.get(reverse('venyou_app:myaccount'))
+
+        self.assertContains(response, 'Welcome, testuser')
+
+    

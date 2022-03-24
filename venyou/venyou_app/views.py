@@ -53,6 +53,10 @@ class StarRating:
 
         return range(no_full_stars), range(no_half_stars), range(no_empty_stars)
 
+def search_metric(venue, search_string):
+    """ Returns a number that gives how close a match the venue is."""
+    return len(set(venue.name).intersection(set(search_string)))
+
 
 def get_user_profile_or_none(request):
     try:
@@ -114,8 +118,9 @@ def map(request):
 def search(request):
     if request.method == 'GET':
         search = request.GET.get('search')
-        venues = Venue.objects.all().filter(name=search)
-        return render(request, 'venyou_app/search.html', {'venues': venues})
+        venues = list(Venue.objects.all())
+        top_venues = sorted(venues, key=lambda x: search_metric(x, search), reverse=True)[:3]
+        return render(request, 'venyou_app/search.html', {'venues': top_venues})
         
 
 def user_login(request):

@@ -16,11 +16,19 @@
         <br>
         <hr>
         <div class="w3-content w3-section" id="slide-box">
-            {% for venue in venues %}
-            <a class="slideHeading" href="{% url 'venyou_app:venue_page' venue.name_slug %}"><h2><b>{{venue.name}}</b></h2></a>
-            <img class="mySlides" src="{{ venue.banner_picture.url }}">              
-            <a href="{% url 'venyou_app:venue_page' venue.name_slug %}" class="w3-button w3-white w3-border-red w3-large" id="find">See this venue</a>
-            {% endfor %}
+            {% if venues %}
+                {% for venue in venues %}
+                <a class="slideHeading" href="{% url 'venyou_app:venue_page' venue.name_slug %}"><h2><b>{{venue.name}}</b></h2></a>
+                {% if venue.banner_picture %}
+                <img class="mySlides" src="{{ venue.banner_picture.url }}">
+                {% else %}
+                <img class="mySlides" alt="Image of venue" >
+                {% endif %}
+                <a href="{% url 'venyou_app:venue_page' venue.name_slug %}" class="w3-button w3-white w3-border-red w3-large" id="find">See this venue</a>
+                {% endfor %}
+            {% else %}
+                <strong>There are no venues yet. <a href="{% url 'venyou_app:login' %}">Login</a> or <a href="{% url 'venyou_app:create_account' %}">Create an Account</a> and add one.</strong>
+            {% endif %}
         </div>
     </div>
     </center>
@@ -37,7 +45,11 @@
         <ul id="event_list_home">
             <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
             <li>
+                {% if venue.banner_picture %}
                 <img src="{{ venue.banner_picture.url }}">
+                {% else %}
+                <img alt="Picture of venue" >
+                {% endif %}
                 <h3>{{event.name}} at {{event.venue}}</h3>
                 <p>Date: {{event.date}}</p>
                 <p>{{event.description}}</p>
