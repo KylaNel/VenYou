@@ -114,8 +114,8 @@ def map(request):
 def search(request):
     if request.method == 'GET':
         search = request.GET.get('search')
-        venue = Venue.objects.all().filter(name=search)
-        return render(request, 'venyou_app/search.html', {'venue': venue})
+        venues = Venue.objects.all().filter(name=search)
+        return render(request, 'venyou_app/search.html', {'venues': venues})
         
 
 def user_login(request):
