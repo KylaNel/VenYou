@@ -49,11 +49,6 @@
                 <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
                 {% endif %}
             {% else %}
-                <div id="login_box">
-                    <a href="{% url 'venyou_app:login' %}">Login</a><br>
-                    Or
-                    <a href="{% url 'venyou_app:create_account' %}">Create an Account</a>
-                </div>
                 <li id="prof"><button type="button"><a href="{% url 'venyou_app:myaccount' %}" class="fa fa-user fa-4x"></a></button></li>
             {% endif %}
             
