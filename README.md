@@ -16,7 +16,9 @@ Django 2.2.26
 
 2. Then install the dependencies. A list of the requirements can be found in `requirement.txt` and and can be installed with `pip install -r requirements.txt`.
 
-3. Run the server with `python venyou/manage.py runserver`.
+3. Create and populate the datebase by running `database_setup.bat` or `database_setup.sh` or by running the commands in these files individully.
+
+4. Run the server with `python venyou/manage.py runserver`.
 
 # How to run tests
 
