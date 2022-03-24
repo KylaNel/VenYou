@@ -48,8 +48,6 @@ class StarRating:
         no_half_stars = int((rounded-no_full_stars+0.9)//1)
         no_empty_stars = int(5-no_full_stars-no_half_stars)
 
-        print(no_full_stars, no_half_stars, no_empty_stars)
-
         return range(no_full_stars), range(no_half_stars), range(no_empty_stars)
 
 def search_metric(venue, search_string):

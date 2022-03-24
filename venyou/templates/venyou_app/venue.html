@@ -9,7 +9,9 @@
 
         <div class="content">
             {% if venue.banner_picture %}
-            <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
+            <div id="venue_img" >
+                <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
+            </div>
             {% else %}
             No picture available.
             {% endif %}
