@@ -1,0 +1,31 @@
+{% extends 'venyou_app/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    VenYou - Map
+{% endblock %}
+
+{% block body_block %}
+
+    <div class="content">
+    <div class="list_display_tag">Venue Results:</div>
+    <div class="list_display">
+        {% if venue %}
+        <br>
+		    <ul>
+            {% for venue in venues %}
+                <li>
+                    <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">{{ venue.name }}</a>
+
+                </li>
+
+            {% endfor %}
+            </ul>
+
+        {% else %}
+        <strong>No results found</strong>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
