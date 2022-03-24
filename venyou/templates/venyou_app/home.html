@@ -45,11 +45,6 @@
         <ul id="event_list_home">
             <a href="{% url 'venyou_app:venue_page' event.venue.name_slug %}">
             <li>
-                {% if venue.banner_picture %}
-                <img src="{{ venue.banner_picture.url }}">
-                {% else %}
-                <img alt="Picture of venue" >
-                {% endif %}
                 <h3>{{event.name}} at {{event.venue}}</h3>
                 <p>Date: {{event.date}}</p>
                 <p>{{event.description}}</p>
