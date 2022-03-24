@@ -115,7 +115,7 @@ def search(request):
     if request.method == 'GET':
         search = request.GET.get('search')
         venue = Venue.objects.all().filter(name=search)
-        return render(request, 'search.html', {'venue': venue})
+        return render(request, 'venyou_app/search.html', {'venue': venue})
         
 
 def user_login(request):
