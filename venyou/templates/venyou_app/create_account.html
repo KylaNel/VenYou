@@ -13,7 +13,7 @@
             {% if created %}
                 <h3>You have created an account. </h3>
             {% else %}
-            <form id="user_form" method="post" action="{% url 'venyou_app:create_account' %}">
+            <form id="user_form" method="post" action="{% url 'venyou_app:create_account' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ user_form.as_p }}
                 {{ user_profile_form.as_p }}

@@ -10,7 +10,7 @@
     <div class="content">
         <div class="list_display_tag"><h4>Add a new venue</h4></div>
         <div class="list_display">
-            <form id="venue_form" method="post" action="{% url 'venyou_app:add_venue' %}">
+            <form id="venue_form" method="post" action="{% url 'venyou_app:add_venue' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for hidden in form.hidden_fields %}
                     {{ hidden }}

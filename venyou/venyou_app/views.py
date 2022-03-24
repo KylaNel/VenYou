@@ -111,6 +111,13 @@ def map(request):
     context_dict['user_profile'] = user_profile
     return render(request, 'venyou_app/map.html', context=context_dict)
 
+def search(request):
+    if request.method == 'GET':
+        search = request.GET.get('search')
+        venues = Venue.objects.all().filter(name=search)
+        return render(request, 'venyou_app/search.html', {'venues': venues})
+        
+
 def user_login(request):
     user, user_profile = get_user_profile_or_none(request)
 
@@ -160,7 +167,13 @@ def add_venue(request):
             if form.is_valid():
                 venue = form.save(commit=False)
                 venue.owner = user_profile
+
+                
+                if 'banner_picture' in request.FILES:
+                    venue.banner_picture = request.FILES['banner_picture']
+
                 venue.save()
+
                 return redirect(reverse('venyou_app:myaccount'))
         
         context_dict = {'user_profile':user_profile, 'form':form}
