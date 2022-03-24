@@ -84,7 +84,7 @@ def rate(request, venue_name_slug):
         #if 'submit' in request.GET:
         #    submit = True
 
-    return render(request, 'venyou_app/rate.html', {'form': form, 'submit': submit, 'venue':venue})
+    return render(request, 'venyou_app/rate.html', {'user_profile':user_profile, 'form': form, 'submit': submit, 'venue':venue})
 
 def home(request):
 

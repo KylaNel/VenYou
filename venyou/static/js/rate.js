@@ -81,9 +81,8 @@ $(function(){
 
 
 function addStarsToForm(){
-    console.log('yikes');
-    alert();
-    return false;
+    updateForm();
+    return true;
 }
 
 function updateForm(){

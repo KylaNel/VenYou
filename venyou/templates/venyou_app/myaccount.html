@@ -17,7 +17,10 @@
                 <ul>
                     {% if venues %}
                     {% for venue in venues %}
-                        {{ venue.name }}
+                        <li>
+                            <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">{{ venue.name }}</a> <br>
+                            {{ venue.description }}
+                        </li>
 
                     {% endfor %}
                     {% else %}
@@ -41,7 +44,7 @@
                     {% for el in ratings %}
                         <div class="rating_listing">
                             <img alt="Rating listing" src="{{ el.about.banner_picture.url }}"/>
-                            <h3>{{ el.about.name }}</h3>
+                            <a href="{% url 'venyou_app:venue_page' el.about.name_slug %}" ><h3>{{ el.about.name }}</h3></a>
                             <p>{{ el.comment }}</p>
                             <p>
                                 Hygiene Score: {{ el.hygiene_score }}
