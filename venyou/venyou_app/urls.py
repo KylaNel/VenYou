@@ -10,6 +10,7 @@ app_name = 'venyou_app'
 urlpatterns = [
     path('', views.home, name='home'),
     path('map/', views.map, name='map'),
+    path('search/', views.search, name='search'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
     path('myaccount/', views.myaccount, name='myaccount'),

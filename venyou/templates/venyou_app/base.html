@@ -60,7 +60,7 @@
 
             <!-- SEARCH BAR -->
             <li class="search-container">
-                <form action="/action_page.php">
+                <form action= "{% url 'venyou_app:search' %}" method="get">
                   <input type="text" placeholder="Search.." name="search">
                   <button type="submit"><i class="fa fa-search"></i></button>
                 </form>

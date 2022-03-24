@@ -111,6 +111,13 @@ def map(request):
     context_dict['user_profile'] = user_profile
     return render(request, 'venyou_app/map.html', context=context_dict)
 
+def search(request):
+    if request.method == 'GET':
+        search = request.GET.get('search')
+        venue = Venue.objects.all().filter(name=search)
+        return render(request, 'venyou_app/search.html', {'venue': venue})
+        
+
 def user_login(request):
     user, user_profile = get_user_profile_or_none(request)
 
