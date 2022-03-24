@@ -29,8 +29,13 @@
                         <td><input type="password" name="password" value="" size="50" /></td>
                     </tr>
                 </table>
-                <div class="centered_button_wrapper"><input class="centered_button" type="submit" value="submit" />
+                <div class="centered_button_wrapper"><input class="centered_button" type="submit" value="Log In" />
             </form>
+            <div>
+                Don't have an account?
+                <br>
+                <a href="{% url 'venyou_app:create_account' %}">Create an Account</a>
+            </div>
         </div>
     </div>
 {% endblock %}
