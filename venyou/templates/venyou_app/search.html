@@ -8,13 +8,15 @@
 {% block body_block %}
 
     <div class="content">
-    <div class="list_display_tag">Venue Results:</div>
+    <div class="list_display_tag">Search Results:</div>
     <div class="list_display">
         {% if venues %}
 		    <ul>
             {% for venue in venues %}
                 <li>
                     <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">{{ venue.name }}</a>
+                    <p>{{ venue.description }}</p>
+                    <p>{{ venue.address }}, {{ venue.city }}, {{ venue.postcode }}</p>
 
                 </li>
 
