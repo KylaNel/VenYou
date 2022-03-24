@@ -10,8 +10,6 @@
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/rate.js' %}" ></script>
 
-
-    <center>
         <h1>Leave a rating for {{venue.name}}</h1>
         <br/> <br/>
 
@@ -52,24 +50,4 @@
         </div>
         {% endif %}
 
-        <!--
-        {% if submit %}
-            Your Ratings were submitted successfully
-            <a href="{% url 'venyou_app:venue_page' venue.name_slug %}">Return to {{venue.name}}</a>
-        {% else %}
-            <div class="content" >
-                <div class="list_display" >
-                    <form id="rate" action = "" method="POST">
-                        {% csrf_token %}
-
-                        {{ form.as_p }}
-
-                        <input type="submit" value="Submit" class="btn btn-secondary" >
-
-                    </form>
-                </div>
-            </div>
-        {% endif %}
-        -->
-    </center>
 {% endblock %}

@@ -15,7 +15,6 @@ from venyou_app.models import UserProfile, Rating, Venue, Event
 
 from venyou_app.forms import RatingsForm, VenueForm, UserProfileForm, UserForm
 
-# Create your views here.
 
 class StarRating:
     def __init__(self, ratings):
@@ -82,11 +81,8 @@ def rate(request, venue_name_slug):
             rating.writer = user_profile
             rating.save()
             submit = True
-            #return redirect(reverse('venyou_app:rate', kwargs={'venue_name_slug':venue_name_slug}))
     else:
         form = RatingsForm()
-        #if 'submit' in request.GET:
-        #    submit = True
 
     return render(request, 'venyou_app/rate.html', {'user_profile':user_profile, 'form': form, 'submit': submit, 'venue':venue})
 

@@ -19,25 +19,17 @@
         <!-- CSS AND JS FOR DJANGO -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         
-        
-        
 
-        <!-- CSS AND JS IMPORTS FOR VSCODE TESTING -->
-        <!-- <link rel="stylesheet" href="base.css">
-        <script src="jquery-3.3.1.min.js"></script>
-        <script src="test-jquery.js"></script>
-        <script src="base.js"></script> -->
-
-        <ul id="nav-1"> 
-            <!--
-            <li class="slide1"></li>         
-            <li class="slide2"></li>-->
+        <!-- HEADER BAR -->
+        <ul id="nav-1">
             
+            <!-- HOME BUTTON -->
             <li><button type="button"><a href="{% url 'venyou_app:home' %}" class="fa fa-home fa-4x"></a></button></li>
 
+            <!-- APP TITLE -->
             <li><a class="title">VenYou</a></li>
 
-
+            <!-- LOGIN/PROFILE BOX -->
             {% if user.is_authenticated %}
                 <div id="login_box">
                     Logged in as {{ user.username }} <br>

@@ -9,9 +9,7 @@
 
         <div class="content">
             {% if venue.banner_picture %}
-            <center>
-                <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
-            </center>
+            <img class="banner_image" alt="Image of venue" src="{{ venue.banner_picture.url }}"/>
             {% else %}
             No picture available.
             {% endif %}
@@ -70,7 +68,6 @@
             </div>
 
             <div id="venue_icon_bar">
-                <!-- <a class="fa fa-external-link fa-4x" href="#"></a> -->
                 <a class="fa fa-map-marker fa-4x" href="{% url 'venyou_app:map' %}"></a>
             </div>
 
