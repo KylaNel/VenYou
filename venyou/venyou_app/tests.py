@@ -244,3 +244,54 @@ class AccountViewTest(TestCase):
         self.assertContains(response, 'Welcome, testuser')
 
     
+class VenuePageViewTests(TestCase):
+
+    def test_venue_does_not_exits(self):
+        """
+            Attempt to access a venue page that doesn't exist and check the page displays a message
+        """
+
+        response = self.client.get(reverse('venyou_app:venue_page',args=['bananarama']))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, 'Sorry, this venue does not exist.')
+
+    def test_single_venue_display(self):
+        """
+            Create a single venue and check the page details are correct
+        """
+
+        # Create a venue
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
+        self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
+        self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
+                        address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
+                        latitude=-3.234343, longitude=10.000023, owner=self.testProfile)
+
+        response = self.client.get(reverse('venyou_app:venue_page',args=[self.testVenue.name_slug]))
+
+        self.assertContains(response, self.testVenue.name)
+        self.assertContains(response, self.testVenue.description)
+        self.assertContains(response, self.testVenue.address)
+        self.assertContains(response, self.testVenue.postcode)
+
+
+    def test_venue_page_shows_ratings(self):
+        """
+            Create a venue with a rating and assert the page shows the rating details
+        """
+
+        # Create instances
+        self.testUser = User.objects.create_user(username='testuser', password='password1234')
+        self.testProfile = UserProfile.objects.create(user=self.testUser, is_owner=True)
+        self.testVenue = Venue.objects.create(name='test venue', description='A venue for the test cases',
+                        address='1 Hacker Way', city='Glasgow', postcode='TE5 TS00',
+                        latitude=-3.234343, longitude=10.000023, owner=self.testProfile)
+        self.testRating = Rating.objects.create(hygiene_score=4, vibe_score=2, safety_score=4,
+                        comment='I enjoyed this test', date=datetime.now(tz=pytz.UTC), writer=self.testProfile,
+                        about=self.testVenue)
+
+        response = self.client.get(reverse('venyou_app:venue_page',args=[self.testVenue.name_slug]))
+
+        self.assertContains(response, self.testRating.comment)
+        self.assertContains(response, self.testRating.writer.user.username)
